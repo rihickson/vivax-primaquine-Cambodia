@@ -1,0 +1,15 @@
+venv/
+*.bbl
+*.log
+*.aux
+*.gz
+*.blg
+*.idea
+*.zip
+*__pycache__
+*.bak
+*.out
+~$*
+*.spl
+scratch*.py
+*archive*

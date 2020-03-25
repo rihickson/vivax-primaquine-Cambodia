@@ -1,0 +1,514 @@
+%% BioMed_Central_Tex_Template_v1.06
+%%                                      %
+%  bmc_article.tex            ver: 1.06 %
+%                                       %
+
+%%IMPORTANT: do not delete the first line of this template
+%%It must be present to enable the BMC Submission system to
+%%recognise this template!!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                     %%
+%%  LaTeX template for BioMed Central  %%
+%%     journal article submissions     %%
+%%                                     %%
+%%          <8 June 2012>              %%
+%%                                     %%
+%%                                     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% For instructions on how to fill out this Tex template           %%
+%% document please refer to Readme.html and the instructions for   %%
+%% authors page on the biomed central website                      %%
+%% http://www.biomedcentral.com/info/authors/                      %%
+%%                                                                 %%
+%% Please do not use \input{...} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one .tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%% BioMed Central currently use the MikTex distribution of         %%
+%% TeX for Windows) of TeX and LaTeX.  This is available from      %%
+%% http://www.miktex.org                                           %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% additional documentclass options:
+%  [doublespacing]
+%  [linenumbers]   - put the line numbers on margins
+
+%%% loading packages, author definitions
+
+%\documentclass[twocolumn]{bmcart}% uncomment this for twocolumn layout and comment line below
+\documentclass[doublespacing]{bmcart}
+
+%%% Load packages
+\usepackage{amsthm,amsmath}
+%\RequirePackage{natbib}
+%\RequirePackage[authoryear]{natbib}% uncomment this for author-year bibliography
+\RequirePackage{hyperref}
+%\usepackage[utf8]{inputenc} %unicode support
+\usepackage[applemac]{inputenc} %applemac support if unicode package fails
+%\usepackage[latin1]{inputenc} %UNIX support if unicode package fails
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                             %%
+%%  If you wish to display your graphics for   %%
+%%  your own use using includegraphic or       %%
+%%  includegraphics, then comment out the      %%
+%%  following two lines of code.               %%
+%%  NB: These line *must* be included when     %%
+%%  submitting to BMC.                         %%
+%%  All figure files must be submitted as      %%
+%%  separate graphics through the BMC          %%
+%%  submission process, not included in the    %%
+%%  submitted article.                         %%
+%%                                             %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\def\includegraphic{}
+\def\includegraphics{}
+
+
+\usepackage{todonotes}
+%%% Put your definitions there:
+\startlocaldefs
+\newcommand{\pv}{\textit{P. vivax}}
+\endlocaldefs
+
+
+%%% Begin ...
+\begin{document}
+
+%%% Start of article front matter
+\begin{frontmatter}
+
+\begin{fmbox}
+\dochead{Research}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% Enter the title of your article here     %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Assessing a Primaquine intervention in Cambodia 2020--2025: A modelling study}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% Enter the authors here                   %%
+%%                                          %%
+%% Specify information, if available,       %%
+%% in the form:                             %%
+%%   <key>={<id1>,<id2>}                    %%
+%%   <key>=                                 %%
+%% Comment or delete the keys which are     %%
+%% not used. Repeat \author command as much %%
+%% as required.                             %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\author[
+%   addressref={aff1},                   % id's of addresses, e.g. {aff1,aff2}
+%   corref={aff1},                       % id of corresponding address, if any
+%   noteref={n1},                        % id's of article notes, if any
+%   email={jane.e.doe@cambridge.co.uk}   % email address
+%]{\inits{JE}\fnm{Jane E} \snm{Doe}}
+%\author[
+%   addressref={aff1,aff2},
+%   email={john.RS.Smith@cambridge.co.uk}
+%]{\inits{JRS}\fnm{John RS} \snm{Smith}}
+\author[
+   addressref={melbms,melbph,bi},                   % id's of addresses, e.g. {aff1,aff2}
+   %corref={aff1},                       % id of corresponding address, if any
+   %noteref={n1},                        % id's of article notes, if any
+   email={r.hickson@UNSWalumni.com}   % email address
+]{Order to be confirmed: \inits{RI}\fnm{RI} \snm{Hickson}}
+%
+\author[
+   addressref={bi},
+   email={rowan.martin-hughes@burnet.edu.au}
+]{\inits{R}\fnm{Rowan} \snm{Martin-Hughes}}
+%
+\author[
+   addressref={menzies},
+   email={angela.devine@menzies.edu.au}
+]{\inits{A}\fnm{Angela} \snm{Devine}}
+%
+\author[
+   addressref={melbph,doherty},
+   email={david.price1@unimelb.edu.au}
+]{\inits{DJ}\fnm{David J} \snm{Price}}
+%
+\author[
+   addressref={bi},
+   email={freya.fowkes@burnet.edu.au}
+]{\inits{FJI}\fnm{Freya JI} \snm{Fowkes}}
+%
+\author[
+   addressref={menzies},
+   email={@menzies.edu.au}
+]{TBC: \inits{R}\fnm{Ric} \snm{Price}}
+%
+\author[
+   addressref={melbph},
+   email={julieas@unimelb.edu.au}
+]{\inits{JA}\fnm{Julie A} \snm{Simpson}}
+%
+\author[
+   addressref={melbms,melbph,doherty},
+   email={jamesm@unimelb.edu.au}
+]{\inits{JM}\fnm{James M} \snm{McCaw}}
+%
+\author[
+   addressref={cnm,moru},
+   email={pengby@email.com}
+]{\inits{P}\fnm{Pengby} \snm{Ngor}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% Enter the authors' addresses here        %%
+%%                                          %%
+%% Repeat \address commands as much as      %%
+%% required.                                %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\address[id=aff1]{%                           % unique id
+%  \orgname{Department of Zoology, Cambridge}, % university, etc
+%  %\street{Waterloo Road},                     %
+%  %\postcode{}                                % post or zip code
+%  \city{London},                              % city
+%  \cny{UK}                                    % country
+%}
+%\address[id=aff2]{%
+%  \orgname{Marine Ecology Department, Institute of Marine Sciences Kiel},
+%  %\street{D\"{u}sternbrooker Weg 20},
+%  %\postcode{24105}
+%  \city{Kiel},
+%  \cny{Germany}
+%}
+\address[id=melbms]{%                           % unique id
+  \orgname{School of Mathematics and Statistics, Faculty of Science, University of Melbourne}, % university, etc
+  %\street{},                     %
+  %\postcode{}                                % post or zip code
+  \city{Parkville},                              % city
+  \cny{Australia}                                    % country
+}
+\address[id=melbph]{%
+  \orgname{Melbourne School of Population and Global Health, Faculty of Medicine, Dentistry, and Health Sciences, University of Melbourne}, % university, etc
+  %\street{},                     %
+  %\postcode{}                                % post or zip code
+  \city{Parkville},                              % city
+  \cny{Australia}                                    % country
+}
+\address[id=bi]{%
+  \orgname{Burnet Institute},
+  %\street{},
+  %\postcode{24105}
+  \city{Melbourne},
+  \cny{Australia}
+}
+\address[id=doherty]{%
+  \orgname{Doherty Institute},
+  %\street{},
+  %\postcode{24105}
+  \city{Melbourne},
+  \cny{Australia}
+}
+\address[id=menzies]{%
+  \orgname{Menzies School of Health Research},
+  %\street{},
+  %\postcode{24105}
+  \city{Melbourne},
+  \cny{Australia}
+}
+\address[id=cnm]{%
+  \orgname{Cambodian National Malaria Center, National Centre for Parasitology, Entomology and Malaria Control},
+  %\street{},
+  %\postcode{24105}
+  \city{Phnom Penh},
+  \cny{Cambodia}
+}
+\address[id=moru]{%
+  \orgname{Mahidol-Oxford Tropical Medicine Research Unit, Faculty of Tropical Medicine, Mahidol University},
+  %\street{},
+  %\postcode{24105}
+  \city{Bangkok},
+  \cny{Thailand}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% Enter short notes here                   %%
+%%                                          %%
+%% Short notes will be after addresses      %%
+%% on first page.                           %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{artnotes}
+%\note{Sample of title note}     % note to the article
+\note[id=n1]{Equal contributor} % note, connected to author
+\end{artnotes}
+
+\end{fmbox}% comment this for two column layout
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% The Abstract begins here                 %%
+%%                                          %%
+%% Please refer to the Instructions for     %%
+%% authors on http://www.biomedcentral.com  %%
+%% and include the section headings         %%
+%% accordingly for your article type.       %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstractbox}
+% Instructions from: https://malariajournal.biomedcentral.com/submission-guidelines/preparing-your-manuscript/research-article
+%Abstract
+%The Abstract should not exceed 350 words. Please minimize the use of abbreviations and do not cite references in the abstract. Reports of randomized controlled trials should follow the CONSORT extension for abstracts. The abstract must include the following separate sections:
+%
+%Background: the context and purpose of the study
+%Methods: how the study was performed and statistical tests used
+%Results: the main findings
+%Conclusions: brief summary and potential implications
+%Trial registration: If your article reports the results of a health care intervention on human participants, it must be registered in an appropriate registry and the registration number and date of registration should be in stated in this section. If it was not registered prospectively (before enrollment of the first participant), you should include the words 'retrospectively registered'. See our editorial policies for more information on trial registration
+
+\begin{abstract} % abstract
+
+\parttitle{Background} %the context and purpose of the study
+Elimination targets for \textit{Plasmodium vivax} are approaching, with the Cambodian target 2025. Quantitative tools can help determine if proposed new strategies will be sufficient to meet those targets.
+
+\parttitle{Methods} %how the study was performed and statistical tests used
+We calibrated the Optima malaria transmission model reported case data from 2011--2018 for six Provinces with different transmission levels. The model had two human populations: with males 15 years plus, and everyone else. We used the calibrated model to explore for best and worst case interpretations of the available case data, and of the Primaquine intervention.
+
+\parttitle{Results}%the main findings
+We found elimination is unlikely to be reached in Provinces with fairly high burdens of \textit{Plasmodium vivax}, such as Pursat, by only targetting adult males with Primaquine. However, it will substantially reduce transmission. As such, we identify how many tests will need to be conducted to have 99\% confidence of detecting at least one case, given the lower incidence by 2025.\todo[inline]{it might be the 95\%.}
+
+\parttitle{Conclusions}
+A primaquine intervention targetting adult males is likely to have a substantial impact on transmission of \pv, though it is not likely to result in elimination from all Provinces by the 2025 target. The surveillance requirements to ensure the resulting lower incidence is detected as Cambodia approaches elimination may be infeasible, e.g. for Takeo, especially as all Provinces will see a decrease in case counts as the intervention is Nationwide.
+
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% The keywords begin here                  %%
+%%                                          %%
+%% Put each keyword in separate \kwd{}.     %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{keyword}
+\kwd{Malaria}
+\kwd{\textit{Plasmodium vivax}}
+\kwd{Transmission}
+\kwd{Primaquine}
+\kwd{Radical cure}
+\kwd{Mathematical model}
+\end{keyword}
+
+% MSC classifications codes, if any
+%\begin{keyword}[class=AMS]
+%\kwd[Primary ]{}
+%\kwd{}
+%\kwd[; secondary ]{}
+%\end{keyword}
+
+\end{abstractbox}
+%
+%\end{fmbox}% uncomment this for twcolumn layout
+
+\end{frontmatter}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% The Main Body begins here                %%
+%%                                          %%
+%% Please refer to the instructions for     %%
+%% authors on:                              %%
+%% http://www.biomedcentral.com/info/authors%%
+%% and include the section headings         %%
+%% accordingly for your article type.       %%
+%%                                          %%
+%% See the Results and Discussion section   %%
+%% for details on how to create sub-sections%%
+%%                                          %%
+%% use \cite{...} to cite references        %%
+%%  \cite{koon} and                         %%
+%%  \cite{oreg,khar,zvai,xjon,schn,pond}    %%
+%%  \nocite{smith,marg,hunn,advi,koha,mouse}%%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% start of article main body
+% <put your article body there>
+
+%%%%%%%%%%%%%%%%
+%% Background %%
+%%
+%Instructios for authors from: https://malariajournal.biomedcentral.com/submission-guidelines/preparing-your-manuscript/research-article
+%Background
+%The Background section should explain the background to the study, its aims, a summary of the existing literature and why this study was necessary or its contribution to the field.
+\section*{Background} 
+Text and results for this section, as per the individual journal's instructions for authors.
+
+%Methods
+%The methods section should include:
+%
+%the aim, design and setting of the study
+%the characteristics of participants or description of materials
+%a clear description of all processes, interventions and comparisons. Generic drug names should generally be used. When proprietary brands are used in research, include the brand names in parentheses
+%the type of statistical analysis used, including a power calculation if appropriate
+\section*{Methods}
+
+\subsection*{Data synthesis to assess disease burden} %Subsecitons as from Scott et al. 2017
+
+\subsection*{Epidemic model}
+
+\subsection*{Programmatic response considered}
+
+\subsection*{Model calibration} % and validation 
+
+\subsection*{Sensitivity analysis} % maybe not? uncertainty band, sure. But not in reported results for prediciton of elimination?
+
+%Results
+%This should include the findings of the study including, if appropriate, results of statistical analysis which must be included either in the text or as tables and figures.
+\section*{Results}
+
+\subsection*{Current burden of disease in Cambodia}
+
+\subsection*{Model calibration and validation}
+
+\subsection*{Primaquine impact on burden of disease in Cambodia}
+
+%Discussion
+%This section should discuss the implications of the findings in context of existing research and highlight limitations of the study.
+\section*{Discussion}
+
+%Conclusions
+%This should state clearly the main conclusions and provide an explanation of the importance and relevance of the study reported.
+\section*{Conclusions}
+
+%List of abbreviations
+%If abbreviations are used in the text they should be defined in the text at first use, and a list of abbreviations should be provided.
+\section*{List of abbreviations}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% Backmatter begins here                   %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{backmatter}
+
+\section*{Competing interests}
+  The authors declare that they have no competing interests.
+
+\section*{Author's contributions}
+    PN, RIH, RMH, AD, DJP and JMM conceived of the project and oversaw the design. PN and RIH curated the data. RMH and RIH developed the transmission model and code implementation, and calibrated the model. RIH, DJP, JMM wrote the surveillance decision support model. RIH, RMH, DJP, AD, JAS, FJIF, JMM, PN prepared the manuscript. All authors read and approved the final manuscript.
+
+\section*{Acknowledgements}
+  Text for this section \ldots
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                  The Bibliography                       %%
+%%                                                         %%
+%%  Bmc_mathpys.bst  will be used to                       %%
+%%  create a .BBL file for submission.                     %%
+%%  After submission of the .TEX file,                     %%
+%%  you will be prompted to submit your .BBL file.         %%
+%%                                                         %%
+%%                                                         %%
+%%  Note that the displayed Bibliography will not          %%
+%%  necessarily be rendered by Latex exactly as specified  %%
+%%  in the online Instructions for Authors.                %%
+%%                                                         %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% if your bibliography is in bibtex format, use those commands:
+\bibliographystyle{bmc-mathphys} % Style BST file (bmc-mathphys, vancouver, spbasic).
+\bibliography{bmc_article}      % Bibliography file (usually '*.bib' )
+% for author-year bibliography (bmc-mathphys or spbasic)
+% a) write to bib file (bmc-mathphys only)
+% @settings{label, options="nameyear"}
+% b) uncomment next line
+%\nocite{label}
+
+% or include bibliography directly:
+% \begin{thebibliography}
+% \bibitem{b1}
+% \end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                               %%
+%% Figures                       %%
+%%                               %%
+%% NB: this is for captions and  %%
+%% Titles. All graphics must be  %%
+%% submitted separately and NOT  %%
+%% included in the Tex document  %%
+%%                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%
+%% Do not use \listoffigures as most will included as separate files
+
+\section*{Figures}
+  \begin{figure}[h!]
+  \caption{\csentence{Sample figure title.}
+      A short description of the figure content
+      should go here.}
+      \end{figure}
+
+\begin{figure}[h!]
+  \caption{\csentence{Sample figure title.}
+      Figure legend text.}
+      \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                               %%
+%% Tables                        %%
+%%                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Use of \listoftables is discouraged.
+%%
+\section*{Tables}
+\begin{table}[h!]
+\caption{Sample table title. This is where the description of the table should go.}
+      \begin{tabular}{cccc}
+        \hline
+           & B1  &B2   & B3\\ \hline
+        A1 & 0.1 & 0.2 & 0.3\\
+        A2 & ... & ..  & .\\
+        A3 & ..  & .   & .\\ \hline
+      \end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                               %%
+%% Additional Files              %%
+%%                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Additional Files}
+  \subsection*{Additional file 1 --- Sample additional file title}
+    Additional file descriptions text (including details of how to
+    view the file, if it is in a non-standard format or the file extension).  This might
+    refer to a multi-page table or a figure.
+
+  \subsection*{Additional file 2 --- Sample additional file title}
+    Additional file descriptions text.
+
+
+\end{backmatter}
+\end{document}
