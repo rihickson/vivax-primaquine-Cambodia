@@ -237,7 +237,7 @@
   \cny{Australia}
 }
 \address[id=cnm]{%
-  \orgname{Cambodian National Malaria Center, National Centre for Parasitology, Entomology and Malaria Control},
+  \orgname{Cambodian National Center for Parasitology, Entomology and Malaria Control},
   %\street{},
   %\postcode{24105}
   \city{Phnom Penh},
@@ -365,11 +365,11 @@ A primaquine intervention targeting adult males is likely to have a substantial 
 %Background
 %The Background section should explain the background to the study, its aims, a summary of the existing literature and why this study was necessary or its contribution to the field.
 \section*{Background} 
-%
+
 \textit{Plasmodium vivax} (\pv) is the cause of a significant burden of malaria globally, with an estimated XX cases, XX deaths~\cite{WHOreport}. In Cambodia, it has been responsible for 30--80\% of cases in different Provinces, with the proportion increasing as the burden of \textit{Plasmodium falciparum} (\pf) has decreased~\cite{Pengby}.
-%
+
 The key difference between \pf~and \pv~is the hypnozoite stage of \pv, which results in relapses~\cite{biologyofvivax}. There are an estimated XX~hypnozoites formed from each infectious mosquito bite, though the biology and mechanisms are poorly understood~\cite{vivaxbiology}. Standard treatment for \pv~is Chloroquine (CQ) for a blood stage infection. Radical cures have been developed to clear the hypnozoite stage, using 8-Aminoquinolines~\cite{RicPrice}. Primaquine (PQ) has been approved/licenses for use in several countries, though the WHO recommendation is to test for G6PDd before administration~\cite{WHOguidelines}. 
-%
+
 Elimination targets for \pv~have been set for many countries~\cite{WHO}, and the Cambodian target is 2025~\cite{Cambodia}. Cambodia are currently trialling a 14-day low dose primaquine intervention for adult males in a couple of health centres in Pursat Province. If successful, this will be expanded into a National programme. We use transmission modelling to determine if this is likely to be sufficient to eliminate \pv~by the 2025 target. 
 
 %Methods
@@ -382,14 +382,27 @@ Elimination targets for \pv~have been set for many countries~\cite{WHO}, and the
 \section*{Methods} \label{sec:methods} %Subsections are currently modelled on Scott et al. 2017
 
 \subsection*{Data synthesis to assess disease burden} 
+Data on malaria incidence were obtained from the Cambodia National Center for Parasitology, Entomology and Malaria Control (CNM)~\ref{CNM_Pengby}. Population and mortality data were obtained from the Cambodia Bureau of Statistics~\ref{}. The aggregated data used for model calibration are provided in Additional file~\ref{supp}, and on GitHub at \url{https://github.com/rihickson/vivax-primaquine-Cambodia}. \todo[inline]{Make this repo public.}  
 
 \subsection*{Epidemic model}
 
+The dynamic transmission model of \pv~is based on that by Scott~\etal~\cite{scott2017}. It accounts for transmission between humans and mosquitoes, with the conceptual disease progression in the model depicted in Fig~\ref{fig:model_flow}. People in the model are identified as: susceptible; infected with \pv~in the liver only (hypnozoites and/or active liver stage); infected with active blood stage infection able to infect mosquitoes (gametocytes present -- further divided into clinical, severe, or asymptomatic); or recovered and immune (with no hypnozoites). The recovered and immune compartment is important for capturing \pv~dynamics given our current understanding of the importance of immunity in reducing transmission or symptomatic infections~\cite{}\todo{fact check me}. The human population is stratified into males 15 years and older (M15+) and everyone else (Gen), to enable the primaquine intervention proposed in Cambodia to be captured by the model. Further details on the full model structure, parameter values, and calibration are provided in Additional file~\ref{supp} and on \url[Github]{https://github.com/rihickson/vivax-primaquine-Cambodia}.
+
+
 \subsection*{Programmatic response considered}
+For the sake of $<$fancy word meaning simplicity of model design$>$, the only explicit programmatic response considered is the primaquine intervention. The effect of all other interventions are considered to be captured by the model calibration (see \S~\ref{sec:calibration}).
 
-\subsection*{Model calibration} % and validation 
+The PQ programmatic response is considered to have four key parameters: start date (October 2020), coverage ($c$), G6PD RDT sensitivity ($G$)\todo{though this is actually more like the proportion of the population who are G6PD>0.7 atm, and hence eligible for PQ}, and the effectiveness of PQ in terms of hypnozoite removal ($E$: a combination of efficacy and adherence). The PQ scenario has, from the start date, $(1-c)(1-G)(1-E)$ times the proportion of the population successfully completing treatments not clearing hypnozoites. The baseline scenario has no PQ, and a default value of $0.75$ of the population not clearing hypnozoites on successful treatment completion. To determine if elimination of \pv~is possible by the target date, we consider the case where there is 1.0 coverage, no G6PD deficiency (1.0 of the population are eligible for PQ), and 1.0 effectiveness of PQ, meaning after treatment there are no M15+ with hypnozoites. This is beyond a ``best case scenario'', as these numbers are not achievable. Hence, if \pv~is still present in 2025 in the model predictions, this additional intervention alone will not be sufficient.  
 
-\subsection*{Sensitivity analysis} % maybe not? uncertainty band, sure. But not in reported results for prediction of elimination?
+\subsection*{Model calibration} \label{sec:calibration} % and validation 
+
+Data on annual incidence (2011--2018), testing numbers, and demographics were used to calibrate the model for each population stratification and Province (see Additional file~\ref{supp}: Figures~\ref{}--\ref{}). This was done by calibrating parameters for the relative susceptibility of the population group to malaria infection, the probability of developing malaria-like symptoms for each person in a given year, the daily probability of testing for people with non-severe malaria-like symptoms such as fever, the daily probability of testing for people with severe malaria-like symptoms, the duration of the latent period (i.e. until hypnozoite reactivation), the proportion incompletely clearing hypnozoites after naturally recovering, and the proportion of new malaria cases that are asymptomatic (see Additional file~\ref{supp}: Table~\ref{calibrated_params}). Uncertainty bounds on the model prediction were generated by sampling $\pm10\%$ of the calibrated parameter values for 30 iterations, and represent 75\% of the subsequent range.
+
+The incidence data was divided into 6 clusters by positive \pv~test results in 2018, and a Province was chosen at random from each cluster. Provinces where the borders had changed during 2011--2018 were excluded from being chosen. Except that Pursat was not randomly selected but deliberately chosen, since this is where the trials are currently being conducted. 
+
+A population model was also built, to model the population size in each Province, and transitions from the general population (Gen) to adult males (M15+). The population model (births, deaths, and transition) was calibrated to fit the known demographics of each Province.  
+
+%\subsection*{Sensitivity analysis} % maybe not? uncertainty band, sure. But not in reported results for prediction of elimination?
 
 %Results
 %This should include the findings of the study including, if appropriate, results of statistical analysis which must be included either in the text or as tables and figures.
@@ -412,8 +425,11 @@ Elimination targets for \pv~have been set for many countries~\cite{WHO}, and the
 %List of abbreviations
 %If abbreviations are used in the text they should be defined in the text at first use, and a list of abbreviations should be provided.
 \section*{List of abbreviations}
+Cambodia National Center for Parasitology, Entomology and Malaria Control (CNM)\\
+CQ = Chloroquine \\
 \pv = \textit{Plasmodium vivax} \\
-PQ = Primaquine
+\pf = \textit{Plasmodium falciparum} \\
+PQ = Primaquine \\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
