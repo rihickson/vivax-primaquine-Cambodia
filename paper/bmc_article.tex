@@ -77,6 +77,7 @@
 
 
 \usepackage{todonotes}
+\usepackage{multirow}
 %%% Put your definitions there:
 \startlocaldefs
 \newcommand{\pv}{\textit{P. vivax}}
@@ -98,7 +99,7 @@
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Assessing a Primaquine intervention in Cambodia 2020--2025: A modelling study}
+\title{Assessing a Primaquine intervention in Cambodia 2020--2025 to control vivax malaria: A modelling study}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                          %%
@@ -145,16 +146,21 @@
    addressref={melbph,doherty},
    email={david.price1@unimelb.edu.au}
 ]{\inits{DJ}\fnm{David J} \snm{Price}}
-%
+% from here, excepting senior, authors are alphabetical
 \author[
    addressref={bi},
    email={freya.fowkes@burnet.edu.au}
 ]{\inits{FJI}\fnm{Freya JI} \snm{Fowkes}}
 %
 \author[
+   addressref={melbms,melbph,doherty},
+   email={jamesm@unimelb.edu.au}
+]{\inits{JM}\fnm{James M} \snm{McCaw}}
+%
+\author[
    addressref={menzies},
    email={@menzies.edu.au}
-]{TBC: \inits{R}\fnm{Ric} \snm{Price}}
+]{(TBC: \inits{R}\fnm{Ric} \snm{Price})}
 %
 \author[
    addressref={melbph},
@@ -162,9 +168,9 @@
 ]{\inits{JA}\fnm{Julie A} \snm{Simpson}}
 %
 \author[
-   addressref={melbms,melbph,doherty},
-   email={jamesm@unimelb.edu.au}
-]{\inits{JM}\fnm{James M} \snm{McCaw}}
+   addressref={cnm},
+   email={sivsovannaroths@gmail.com}
+]{\inits{S}\fnm{Siv} \snm{Sovannaroth}}
 %
 \author[
    addressref={cnm,moru},
@@ -215,15 +221,15 @@
   \city{Melbourne},
   \cny{Australia}
 }
-\address[id=doherty]{%
-  \orgname{Doherty Institute},
+\address[id=menzies]{%
+  \orgname{Menzies School of Health Research},
   %\street{},
   %\postcode{24105}
   \city{Melbourne},
   \cny{Australia}
 }
-\address[id=menzies]{%
-  \orgname{Menzies School of Health Research},
+\address[id=doherty]{%
+  \orgname{Doherty Institute},
   %\street{},
   %\postcode{24105}
   \city{Melbourne},
@@ -255,7 +261,7 @@
 
 \begin{artnotes}
 %\note{Sample of title note}     % note to the article
-\note[id=n1]{Equal contributor} % note, connected to author
+%\note[id=n1]{Equal contributor} % note, connected to author
 \end{artnotes}
 
 \end{fmbox}% comment this for two column layout
@@ -290,11 +296,11 @@ Elimination targets for \textit{Plasmodium vivax} are approaching, with the Camb
 \parttitle{Methods} %how the study was performed and statistical tests used
 We calibrated the Optima malaria transmission model reported case data from 2011--2018 for six Provinces with different transmission levels. The model had two human populations: with males 15 years plus, and everyone else. We used the calibrated model to explore for best and worst case interpretations of the available case data, and of the Primaquine intervention.
 
-\parttitle{Results}%the main findings
-We found elimination is unlikely to be reached in Provinces with fairly high burdens of \textit{Plasmodium vivax}, such as Pursat, by only targetting adult males with Primaquine. However, it will substantially reduce transmission. As such, we identify how many tests will need to be conducted to have 99\% confidence of detecting at least one case, given the lower incidence by 2025.\todo[inline]{it might be the 95\%.}
+\parttitle{Results} %the main findings
+We found elimination is unlikely to be reached in Provinces with fairly high burdens of \textit{Plasmodium vivax}, such as Pursat, by only targeting adult males with Primaquine. However, it will substantially reduce transmission. As such, we identify how many tests will need to be conducted to have 99\% confidence of detecting at least one case, given the lower incidence by 2025.
 
 \parttitle{Conclusions}
-A primaquine intervention targetting adult males is likely to have a substantial impact on transmission of \pv, though it is not likely to result in elimination from all Provinces by the 2025 target. The surveillance requirements to ensure the resulting lower incidence is detected as Cambodia approaches elimination may be infeasible, e.g. for Takeo, especially as all Provinces will see a decrease in case counts as the intervention is Nationwide.
+A primaquine intervention targeting adult males is likely to have a substantial impact on transmission of \pv, though it is not likely to result in elimination from all Provinces by the 2025 target. The surveillance requirements to ensure the resulting lower incidence is detected as Cambodia approaches elimination may be infeasible, e.g. for Takeo, especially as all Provinces will see a decrease in case counts as the intervention is Nationwide.
 
 \end{abstract}
 
@@ -354,11 +360,13 @@ A primaquine intervention targetting adult males is likely to have a substantial
 %%%%%%%%%%%%%%%%
 %% Background %%
 %%
-%Instructios for authors from: https://malariajournal.biomedcentral.com/submission-guidelines/preparing-your-manuscript/research-article
+%Instructions for authors from: https://malariajournal.biomedcentral.com/submission-guidelines/preparing-your-manuscript/research-article
 %Background
 %The Background section should explain the background to the study, its aims, a summary of the existing literature and why this study was necessary or its contribution to the field.
 \section*{Background} 
-Text and results for this section, as per the individual journal's instructions for authors.
+
+
+Elimination targets for \textit{Plasmodium vivax} (\pv) are approaching, with the Cambodian target 2025. Quantitative tools can help determine if proposed new strategies will be sufficient to meet those targets.
 
 %Methods
 %The methods section should include:
@@ -367,9 +375,9 @@ Text and results for this section, as per the individual journal's instructions 
 %the characteristics of participants or description of materials
 %a clear description of all processes, interventions and comparisons. Generic drug names should generally be used. When proprietary brands are used in research, include the brand names in parentheses
 %the type of statistical analysis used, including a power calculation if appropriate
-\section*{Methods}
+\section*{Methods} \label{sec:methods} %Subsections are currently modelled on Scott et al. 2017
 
-\subsection*{Data synthesis to assess disease burden} %Subsecitons as from Scott et al. 2017
+\subsection*{Data synthesis to assess disease burden} 
 
 \subsection*{Epidemic model}
 
@@ -377,7 +385,7 @@ Text and results for this section, as per the individual journal's instructions 
 
 \subsection*{Model calibration} % and validation 
 
-\subsection*{Sensitivity analysis} % maybe not? uncertainty band, sure. But not in reported results for prediciton of elimination?
+\subsection*{Sensitivity analysis} % maybe not? uncertainty band, sure. But not in reported results for prediction of elimination?
 
 %Results
 %This should include the findings of the study including, if appropriate, results of statistical analysis which must be included either in the text or as tables and figures.
@@ -400,7 +408,8 @@ Text and results for this section, as per the individual journal's instructions 
 %List of abbreviations
 %If abbreviations are used in the text they should be defined in the text at first use, and a list of abbreviations should be provided.
 \section*{List of abbreviations}
-
+\pv = \textit{Plasmodium vivax} \\
+PQ = Primaquine
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -464,9 +473,8 @@ Text and results for this section, as per the individual journal's instructions 
 
 \section*{Figures}
   \begin{figure}[h!]
-  \caption{\csentence{Sample figure title.}
-      A short description of the figure content
-      should go here.}
+  \caption{\csentence{Model calibration for Mondul Kiri.}
+      Number of malaria cases as a function of time, from 2011 to 2025. A) General population for the high and increasing baseline incidence. B) Males 15 years and older population for the high and increasing baseline incidence. C) General population for the low and decreasing baseline incidence. D) Males 15 years and older population for the low and decreasing baseline incidence. }
       \end{figure}
 
 \begin{figure}[h!]
@@ -484,13 +492,18 @@ Text and results for this section, as per the individual journal's instructions 
 %%
 \section*{Tables}
 \begin{table}[h!]
-\caption{Sample table title. This is where the description of the table should go.}
-      \begin{tabular}{cccc}
-        \hline
-           & B1  &B2   & B3\\ \hline
-        A1 & 0.1 & 0.2 & 0.3\\
-        A2 & ... & ..  & .\\
-        A3 & ..  & .   & .\\ \hline
+\caption{Surveillance targets for 0.99 probability of detecting at least one case of \pv in a Province, given the scenarios outlined in \S~\ref{sec:methods}, assuming 100\% sensitivity and specificity of the tests (so a lower bound on number of targets).}
+      \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+       \hline 
+       \multicolumn{2}{|l|}{Year} & \multicolumn{4}{|c|}{2020} & \multicolumn{4}{|c|}{2025} \\ \hline
+       \multirow{2}{*}{Scenario} & Incidence & Low & Low & High & High & Low & Low & High & High \\ %\hline 
+                                 & Primaquine & None & M 15+ & None & M 15+ & None & M 15+ & None & M 15+ \\ \hline
+    \multirow{6}{*}{Province} & Pursat & 441 & 444 & 2,345 & 76 & 76 & 557 & 2,610 & 70 \\ %\hline
+                              & Mondul Kiri & 172 & 173 & 48 & 48 & 280 & 1,388 & 54 & 263 \\ %\hline
+                              & Kampong Chhnang & 3,798 & 3,819 & 649 & 653 & 5,564 & 26,094 & 614 & 2,998 \\ %\hline 
+                              & Battambang & 2,962 & 2,978 & 433 & 436 & 3,916 & 19,191 & 384 & 1,922 \\ %\hline
+                              & Pailin & 850 & 855 & 123 & 124 & 1,040 & 4,960 & 122 & 579 \\ %\hline 
+                              & Takeo & 14,335 & 14,415 & 2,345 & 2,358 & 18,905 & 89,418 & 2,205 & 10,919 \\ \hline 
       \end{tabular}
 \end{table}
 
