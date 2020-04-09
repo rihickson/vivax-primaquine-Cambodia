@@ -418,21 +418,34 @@ Given the expected substantial impact on transmission from providing PQ to M15+,
 \section*{Results}
 
 \subsection*{Model calibration}
-For each of the 6 Provinces, calibrations such as that shown in Fig~\ref{fig:pursat-calibratoon} for Pursat were conducted. The left column (A and C) represent the ``General'' population group, and the right column (B and D) the ``Males 15 years and older'' group. The top row (A and B) represent the ``worst case'' baseline incidence calibration, where the model is calibrated to the higher data values and is increasing trend after 2018. The bottom row (C and D) represent the ``best case'', where the model is calibrated to the lower values and has a decreasing trend. The other 5 Figures depicting the calibration are shown in Additional File~\ref{supp}, Fig~\ref{fig:calibration_start}--\ref{fig:calibration_end}.
+For each of the 6 Provinces, calibrations such as that shown in Fig~\ref{fig:calibration_Pursat} for Pursat were conducted. The left column (A and C) represent the ``General'' population group, and the right column (B and D) the ``Males 15 years and older'' group. The top row (A and B) represent the ``worst case'' baseline incidence calibration, where the model is calibrated to the higher data values and is increasing trend after 2018. The bottom row (C and D) represent the ``best case'', where the model is calibrated to the lower values and has a decreasing trend. The other 5 Figures depicting the calibration are shown in Additional File~\ref{supp}, Fig~\ref{fig:calibration_start}--\ref{fig:calibration_end}.
 
-\subsection*{Primaquine impact on burden of disease in Cambodia}
+\subsection*{Primaquine impact on burden of disease in Cambodia} \label{sec:impact}
 
-The impact of Primaquine being provided to all Males 15 years and older from October 2020, will complete effectiveness, are shown for each Province and baseline incidence scenario in Figures~\ref{}--\ref{}. The ``vivax infection'' is an amalgamation of the exposed, uncomplicated, and severe malaria states, and ``latent'' refers to those with hypnozoites. The breakdown by state is shown in Additional file~\ref{supp}, Figures~\ref{}--\ref{}. Figures~\ref{}--\ref{} show PQ provided to M15+ is predicted to have a substantial impact on transmission. However, elimination of \pv~is not reached by 2025 for any of Provinces with the high and increasing baseline incidence, and is not reached even for the low and decreasing baseline incidence for the Provinces with a higher current burden (Pursat). 
+The impact of Primaquine being provided to all Males 15 years and older from October 2020, will complete effectiveness, are shown for each Province and baseline incidence scenario in Figures~\ref{fig:pq_Pursat}--\ref{fig:pq_Takeo}. The ``vivax infection'' is an amalgamation of the exposed, uncomplicated, and severe malaria states, and ``latent'' refers to those with hypnozoites. The breakdown by state is shown in Additional file~\ref{supp}, Figures~\ref{}--\ref{}. Figures~\ref{}--\ref{} show PQ provided to M15+ is predicted to have a substantial impact on transmission. However, elimination of \pv~is not reached by 2025 for any of Provinces with the high and increasing baseline incidence, and is not reached even for the low and decreasing baseline incidence for the Provinces with a higher current burden (Pursat). 
 
 \subsection*{Implications for surveillance}
+
+As the results showed in \S~\ref{sec:impact}, the PQ intervention will result in a lower prevalence of \pv. Therefore, the number of tests will change with time to have 99\% confidence of detecting at least one case of \pv~in males 15 years and older, in a given Province. Using the binomial approach, as outlined in \S~\ref{sec:methods}, we calculate the minimum target test number, assuming 100\% sensitivity and specificity, with these numbers presented in Table~\ref{tab:surveillance}. Note the prevalences used are based on the numbers shown at the time of the vertical dashed line in Figures~\ref{fig:pq_Pursat}--\ref{fig:pq_Takeo}. Most of the surveillance targets are within the current testing numbers of a Province~\ref{Pengby}, however some are likely to be infeasible, such as the 89,418 for the low and decreasing baseline incidence scenario for Takeo, to detect at least one case in 2025. 
 
 %Discussion
 %This section should discuss the implications of the findings in context of existing research and highlight limitations of the study.
 \section*{Discussion}
 
+Limitations include:
+\begin{itemize}
+\item Intervention scenario is beyond a ``best case'' as it is not possible to realise, due to limitations such as G6PDd prevalence in Cambodia, and a less than 100\% effectiveness of PQ. 
+\item Entirely a deterministic model, so the possibility of stochastic fadeout has been ignored.
+\item Actual background incidence is between the two scenarios posed, and we have not attempted to model the expected case. However, this approach enables us to answer the original question with confidence, that \pv~is not likely to be eliminated by the target date of 2025 in Cambodia using PQ for Males 15 years and older in addition to current interventions.
+\end{itemize}
+The overly optimistic PQ scenario works in the opposite direction of the ignoring stochasticity. 
+
+
 %Conclusions
 %This should state clearly the main conclusions and provide an explanation of the importance and relevance of the study reported.
 \section*{Conclusions}
+
+\pv~is not likely to be eliminated by the target date of 2025 in Cambodia using PQ for Males 15 years and older in addition to current interventions. However, it is likely to have a substantial impact, both on detectable cases and those with hypnozoite reservoirs. 
 
 %List of abbreviations
 %If abbreviations are used in the text they should be defined in the text at first use, and a list of abbreviations should be provided.
@@ -513,14 +526,28 @@ PQ = Primaquine \\
 %  \caption{\csentence{Sample figure title.}
 %      Figure legend text.}
 %      \end{figure}
-      
+'
+
+% -------------- Calibration example figs --------------
+
+\begin{figure}[h!]
+\centering
+\subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Pursat_high_Incident_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Pursat_high_Incident_Gen.png}} 
+\subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Pursat_low_Incident_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Pursat_low_Incident_Gen.png}} 
+\caption{\csentence{Model calibration for Pursat.}}\label{fig:calibration_Pursat}
+\end{figure}
+
+
+% -------------- PQ impact figs --------------
 \begin{figure}[h!]
 \centering
 \subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Pursat_high_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Pursat_high_Gen.png}} 
 \subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Pursat_low_M15+.png}} 
 \subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Pursat_low_Gen.png}} 
-\caption{\csentence{PQ intervention for \pv in Pursat.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Pursat}
+\caption{\csentence{PQ intervention for \pv~in Pursat.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Pursat}
 \end{figure}
 
 \begin{figure}[h!]
@@ -552,20 +579,20 @@ PQ = Primaquine \\
 
 \begin{figure}[h!]
 \centering
-\subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Takeo_high_M15+.png}} 
-\subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Takeo_high_Gen.png}} 
-\subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Takeo_low_M15+.png}} 
-\subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Takeo_low_Gen.png}} 
-\caption{\csentence{PQ intervention for \pv~in Takeo.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Takeo}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
 \subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Pailin_high_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Pailin_high_Gen.png}} 
 \subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Pailin_low_M15+.png}} 
 \subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Pailin_low_Gen.png}} 
 \caption{\csentence{PQ intervention for \pv~in Pailin.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Pailin}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Takeo_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Takeo_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Takeo_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Takeo_low_Gen.png}} 
+\caption{\csentence{PQ intervention for \pv~in Takeo.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Takeo}
 \end{figure}
 
 
@@ -581,8 +608,8 @@ PQ = Primaquine \\
 %% Use of \listoftables is discouraged.
 %%
 \section*{Tables}
-\begin{table}[h!]
-\caption{Surveillance targets for 0.99 probability of detecting at least one case of \pv~in a Province, given the scenarios outlined in \S~\ref{sec:methods}, assuming 100\% sensitivity and specificity of the tests (so a lower bound on number of targets).}
+\begin{table}[h!] 
+\caption{Surveillance targets for 0.99 probability of detecting at least one case of \pv~in a Province, given the scenarios outlined in \S~\ref{sec:methods}, assuming 100\% sensitivity and specificity of the tests (so a lower bound on number of targets).}\label{tab:surveillance}
       \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
        \hline 
        \multicolumn{2}{|l|}{Year} & \multicolumn{4}{|c|}{2020} & \multicolumn{4}{|c|}{2025} \\ \hline
