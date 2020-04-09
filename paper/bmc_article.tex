@@ -54,6 +54,7 @@
 %\usepackage[utf8]{inputenc} %unicode support
 \usepackage[applemac]{inputenc} %applemac support if unicode package fails
 %\usepackage[latin1]{inputenc} %UNIX support if unicode package fails
+\usepackage{subcaption}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,6 +83,7 @@
 \startlocaldefs
 \newcommand{\pv}{\textit{P. vivax}}
 \newcommand{\pf}{\textit{P. falciparum}}
+\graphicspath{{../figures/}}
 \endlocaldefs
 
 
@@ -501,16 +503,74 @@ PQ = Primaquine \\
 %%
 %% Do not use \listoffigures as most will included as separate files
 
-\section*{Figures}
-  \begin{figure}[h!]
-  \caption{\csentence{Model calibration for Mondul Kiri.}
-      Number of malaria cases as a function of time, from 2011 to 2025. A) General population for the high and increasing baseline incidence. B) Males 15 years and older population for the high and increasing baseline incidence. C) General population for the low and decreasing baseline incidence. D) Males 15 years and older population for the low and decreasing baseline incidence. }
-      \end{figure}
+%\section*{Figures}
+%  \begin{figure}[h!]
+%  \caption{\csentence{Model calibration for Mondul Kiri.}
+%      Number of malaria cases as a function of time, from 2011 to 2025. A) General population for the high and increasing baseline incidence. B) Males 15 years and older population for the high and increasing baseline incidence. C) General population for the low and decreasing baseline incidence. D) Males 15 years and older population for the low and decreasing baseline incidence. }
+%      \end{figure}
+%
+%\begin{figure}[h!]
+%  \caption{\csentence{Sample figure title.}
+%      Figure legend text.}
+%      \end{figure}
+      
+\begin{figure}[h!]
+\centering
+\subcaptionbox{M15+, high.\label{M15+_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Pursat_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Gen_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Pursat_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{M15+_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Pursat_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Gen_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Pursat_low_Gen.png}} 
+\caption{\csentence{PQ intervention for \pv in Pursat.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Pursat}
+\end{figure}
 
 \begin{figure}[h!]
-  \caption{\csentence{Sample figure title.}
-      Figure legend text.}
-      \end{figure}
+\centering
+\subcaptionbox{M15+, high.\label{M15+_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Mondul_Kiri_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Gen_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Mondul_Kiri_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{M15+_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Mondul_Kiri_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Gen_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Mondul_Kiri_low_Gen.png}} 
+\caption{\csentence{PQ intervention for \pv~in Mondul Kiri.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Mondul_Kiri}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\subcaptionbox{M15+, high.\label{M15+_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Gen_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{M15+_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Gen_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_low_Gen.png}} 
+\caption{\csentence{PQ intervention for \pv~in Kampong Chhnang.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Kampong_Chhnang}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\subcaptionbox{M15+, high.\label{M15+_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Battambang_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Gen_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Battambang_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{M15+_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Battambang_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Gen_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Battambang_low_Gen.png}} 
+\caption{\csentence{PQ intervention for \pv~in Battambang.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Battambang}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\subcaptionbox{M15+, high.\label{M15+_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Takeo_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Gen_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Takeo_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{M15+_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Takeo_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Gen_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Takeo_low_Gen.png}} 
+\caption{\csentence{PQ intervention for \pv~in Takeo.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Takeo}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\subcaptionbox{M15+, high.\label{M15+_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Pailin_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Gen_high}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Pailin_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{M15+_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Pailin_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Gen_low}}[.45\linewidth]{\includegraphics[width=.45\linewidth]{Pailin_low_Gen.png}} 
+\caption{\csentence{PQ intervention for \pv~in Pailin.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Pailin}
+\end{figure}
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                               %%
@@ -522,7 +582,7 @@ PQ = Primaquine \\
 %%
 \section*{Tables}
 \begin{table}[h!]
-\caption{Surveillance targets for 0.99 probability of detecting at least one case of \pv in a Province, given the scenarios outlined in \S~\ref{sec:methods}, assuming 100\% sensitivity and specificity of the tests (so a lower bound on number of targets).}
+\caption{Surveillance targets for 0.99 probability of detecting at least one case of \pv~in a Province, given the scenarios outlined in \S~\ref{sec:methods}, assuming 100\% sensitivity and specificity of the tests (so a lower bound on number of targets).}
       \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
        \hline 
        \multicolumn{2}{|l|}{Year} & \multicolumn{4}{|c|}{2020} & \multicolumn{4}{|c|}{2025} \\ \hline
