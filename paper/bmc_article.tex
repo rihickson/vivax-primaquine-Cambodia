@@ -83,6 +83,7 @@
 \startlocaldefs
 \newcommand{\pv}{\textit{P. vivax}}
 \newcommand{\pf}{\textit{P. falciparum}}
+\newcommand{\males}{M15$+$}
 \graphicspath{{../figures/}}
 \endlocaldefs
 
@@ -432,26 +433,41 @@ As the results showed in \S~\ref{sec:impact}, the PQ intervention will result in
 %This section should discuss the implications of the findings in context of existing research and highlight limitations of the study.
 \section*{Discussion}
 
-Limitations include:
+% Results -> Conclusion (we found...; we filled gap...)
+We have used a transmission model to explore the potential impact of Primaquine (PQ) for adult males, 15 years of age and older (\males). We found PQ will be insufficient to reach elimination by the target date of 2025, for most of the Provinces and scenarios explored. This is an important piece of evidence to help guide the need for either further interventions or a change in target date for \pv~elimination. 
+
+% Limitations in filling gap, Limits in generalisation (our limitation; details; how to interpret/fix
+However, there are several limitations to this modelling study. Limitations include:
 \begin{itemize}
 \item Intervention scenario is beyond a ``best case'' as it is not possible to realise, due to limitations such as G6PDd prevalence in Cambodia, and a less than 100\% effectiveness of PQ. 
-\item Entirely a deterministic model, so the possibility of stochastic fadeout has been ignored.
+\item Entirely a deterministic model, so the possibility of stochastic fadeout has been ignored. E.g. Fig~\ref{fig:pq_Takeo:gen_low} estimates $<2$ cases by 2025.
 \item Actual background incidence is between the two scenarios posed, and we have not attempted to model the expected case. However, this approach enables us to answer the original question with confidence, that \pv~is not likely to be eliminated by the target date of 2025 in Cambodia using PQ for Males 15 years and older in addition to current interventions.
 \end{itemize}
 The overly optimistic PQ scenario works in the opposite direction of the ignoring stochasticity. 
 
 
+% Results -> Conclusion (we found...; we filled gap...) + limitation
+We showed the earliest date this PQ intervention would eliminate \pv~by, given this beyond best-case scenario. For more realistic elimination timeline estimates, we recommend using the latest surveillance data~\cite{pengby_mobile} to inform an expected incidence calibration, as well as the results of the current PQ trial underway in Pursat~\cite{CNM_trial} to inform coverage, G6PDd prevalence, and PQ effectiveness estimates. This coupled with a a hybrid deterministic-stochastic approach, where the stochastic model is used once incidence becomes smaller, will help identify expected timelines with stochastic uncertainty estimates. 
+
+
+% Results -> Conclusion (we found...; we filled gap...) + limitation
+We identify surveillance test targets required to by 99\% confident of detecting at least one case of \pv~given the predicted annual incidence. This is to help inform minimum test targets to be sure of elimination. These numbers assume 100\% sensitivity and specificity of \pv~tests, hence are lower bounds on the deterministic model estimates.
+
+% Contributions beyond (our strength; what it is useful for; the difference made)
+We now have a \pv~transmission model calibrated for six Provinces in Cambodia, for two background incidences to account for changes in surveillance and interventions between 2011 and 2018. This model is in Optima/Atomica\todo{Rowan: I am very confused as to whether I should be referring to this as Optimal or Atomica. Please clarify.}, so it is straightforward to explore other intervention scenarios, including optimal resource allocation~\cite{optima}.
+
 %Conclusions
 %This should state clearly the main conclusions and provide an explanation of the importance and relevance of the study reported.
 \section*{Conclusions}
 
-\pv~is not likely to be eliminated by the target date of 2025 in Cambodia using PQ for Males 15 years and older in addition to current interventions. However, it is likely to have a substantial impact, both on detectable cases and those with hypnozoite reservoirs. 
+We have used transmission modelling to answer a key question for Cambodia: if the use of Primaquine for males 15 years and older from October 2020, in addition to current interventions, will be sufficient to eliminate \textit{Plasmodium vivax} by the target date of 2025. Given the uncertainties in the case data, we have used a best case scenario approach. We found \pv~is not likely to be eliminated by all Provinces by the target date. However, PQ is likely to have a substantial impact, on both blood stage infections (clinical and asymptomatic), and hypnozoite reservoirs. This is an important piece of evidence, to help guide the need for either further interventions or a change in target date. 
 
 %List of abbreviations
 %If abbreviations are used in the text they should be defined in the text at first use, and a list of abbreviations should be provided.
 \section*{List of abbreviations}
 Cambodia National Center for Parasitology, Entomology and Malaria Control (CNM)\\
 CQ = Chloroquine \\
+\males = Males, 15 years of age and older \\ 
 \pv = \textit{Plasmodium vivax} \\
 \pf = \textit{Plasmodium falciparum} \\
 PQ = Primaquine \\
