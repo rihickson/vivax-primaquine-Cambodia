@@ -1,4 +1,9 @@
-import multiprocessing
+# -*- coding: utf-8 -*-
+"""
+
+@author: RIH
+"""
+
 from run_cambodia import run_me
 
 book_key_all = ['Pursat_low', 'Pursat_high', 'Mondul_Kiri_low', 'Mondul_Kiri_high', 'Kampong_Chhnang_low', 'Kampong_Chhnang_high', 'Battambang_low', 'Battambang_high', 'Takeo_low', 'Takeo_high', 'Pailin_low', 'Pailin_high']

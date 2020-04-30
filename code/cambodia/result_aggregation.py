@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+
+@author: RIH
+"""
+
 # Written to aggregate the results of the runs in `cambodia.py` to feed into the decision support around surveillance by DJP
 
 import json

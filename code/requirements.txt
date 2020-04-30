@@ -10,8 +10,6 @@ sklearn>=0.0
 utils>=0.9.0
 pytest
 pytest-xdist
-# nbsphinx
-# ipykernel
 pandoc
 sphinx>=1.8
 psutil
