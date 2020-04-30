@@ -13,3 +13,10 @@ venv/
 *.spl
 scratch*.py
 *archive*
+*venv*
+*.idea*
+*Results*
+*generated*
+
+
+
