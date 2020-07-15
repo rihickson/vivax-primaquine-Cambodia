@@ -150,6 +150,11 @@
    addressref={melbph,doherty},
    email={david.price1@unimelb.edu.au}
 ]{\inits{DJ}\fnm{David J} \snm{Price}}
+\author[
+   addressref={menzies},
+   email={kamala.ley-thriemer@menzies.edu.au}
+]{\inits{K}\fnm{Kamala} \snm{Thriemer}}
+%
 % from here, excepting senior, authors are alphabetical
 \author[
    addressref={bi},
@@ -170,11 +175,6 @@
    addressref={cnm},
    email={sivsovannaroths@gmail.com}
 ]{\inits{S}\fnm{Siv} \snm{Sovannaroth}}
-%
-\author[
-   addressref={menzies},
-   email={kamala.ley-thriemer@menzies.edu.au}
-]{\inits{K}\fnm{Kamala} \snm{Thriemer}}
 %
 \author[
    addressref={cnm,moru},
@@ -433,28 +433,22 @@ As the results showed in \S~\ref{sec:impact}, the PQ intervention will result in
 %This section should discuss the implications of the findings in context of existing research and highlight limitations of the study.
 \section*{Discussion}
 
-% Results -> Conclusion (we found...; we filled gap...)
+% Statement of principal findings
 We have used a transmission model to explore the potential impact of Primaquine (PQ) for adult males, 15 years of age and older (\males). We found PQ will be insufficient to reach elimination by the target date of 2025, for most of the Provinces and scenarios explored. This is an important piece of evidence to help guide the need for either further interventions or a change in target date for \pv~elimination. 
 
-% Limitations in filling gap, Limits in generalisation (our limitation; details; how to interpret/fix
-However, there are several limitations to this modelling study. Limitations include:
-\begin{itemize}
-\item Intervention scenario is beyond a ``best case'' as it is not possible to realise, due to limitations such as G6PDd prevalence in Cambodia, and a less than 100\% effectiveness of PQ. 
-\item Entirely a deterministic model, so the possibility of stochastic fadeout has been ignored. E.g. Fig~\ref{fig:pq_Takeo:gen_low} estimates $<2$ cases by 2025.
-\item Actual background incidence is between the two scenarios posed, and we have not attempted to model the expected case. However, this approach enables us to answer the original question with confidence, that \pv~is not likely to be eliminated by the target date of 2025 in Cambodia using PQ for Males 15 years and older in addition to current interventions.
-\end{itemize}
-The overly optimistic PQ scenario works in the opposite direction of the ignoring stochasticity. 
+% Strengths and weaknesses of the study
+We have used the simplest possible transmission model to answer the question posed about reaching elimination by the target date. However, there are several limitations to this modelling study. First, we have used an entirely a deterministic model, so the possibility of stochastic fadeout has been ignored. For example, Fig~\ref{fig:pq_Takeo:gen_low} estimates $<2$ cases by 2025. Second, the actual background incidence is most likely between the two scenarios explored here. Our approach increases confidence in the answer to the posed question, in that \pv~is not likely to be eliminated by the target date of 2025 in Cambodia using PQ for Males 15 years and older in addition to current interventions. Third, the intervention scenario we explored is beyond a ``best case'' as it is not possible to realise since 100\% of males will not be eligible for PQ (e.g. due to G6PDd), and it will not be 100\% effective. This overly optimistic PQ scenario is likely to be optimistic about reaching elimination, whereas ignoring stochasticity is likely to be pessimistic. 
 
+% Strengths and weaknesses in relation to other studies, discussing particularly any differences in results
+As far as we are aware, there have been no other modelling studies answering the question of elimination of \pv~through a PQ intervention for males 15 years and older in Cambodia. There are other \pv~transmission models, but they have either the wrong demographic breakdown or are unnecessarily complicated for answering this particular question.
 
-% Results -> Conclusion (we found...; we filled gap...) + limitation
-We showed the earliest date this PQ intervention would eliminate \pv~by, given this beyond best-case scenario. For more realistic elimination timeline estimates, we recommend using the latest surveillance data~\cite{pengby_mobile} to inform an expected incidence calibration, as well as the results of the current PQ trial underway in Pursat~\cite{CNM_trial} to inform coverage, G6PDd prevalence, and PQ effectiveness estimates. This coupled with a a hybrid deterministic-stochastic approach, where the stochastic model is used once incidence becomes smaller, will help identify expected timelines with stochastic uncertainty estimates. 
-
-
-% Results -> Conclusion (we found...; we filled gap...) + limitation
-We identify surveillance test targets required to by 99\% confident of detecting at least one case of \pv~given the modelled annual incidence. This is to help inform minimum test targets to be sure of elimination. These numbers assume 100\% sensitivity and specificity of \pv~tests, hence are lower bounds on the deterministic model estimates.
-
-% Contributions beyond (our strength; what it is useful for; the difference made)
+% Meaning of the study: possible mechanisms and implications for clinicians or policymakers
 We now have the Optimal malaria model (see, for example,~\cite{scott}) calibrated for \pv~transmission for six Provinces in Cambodia, for two background incidences to account for changes in surveillance and interventions between 2011 and 2018. Since this uses the Optima model it is straightforward to explore other intervention scenarios, including optimal resource allocation~\cite{optima}.
+% 
+Furthermore, we identify surveillance test targets required to by 99\% confident of detecting at least one case of \pv~given the modelled annual incidence. This is to help inform minimum test targets to be sure of elimination. These numbers assume 100\% sensitivity and specificity of \pv~tests, hence are lower bounds on the deterministic model estimates.
+
+% Unanswered questions and future research
+ We showed the earliest date this PQ intervention would eliminate \pv~by, given this is beyond a best-case scenario. For more realistic elimination timeline estimates, we recommend using the latest surveillance data~\cite{pengby_mobile} to inform an expected incidence calibration, as well as the results of the current PQ trial underway in Pursat~\cite{CNM_trial} to inform coverage, G6PDd prevalence, and PQ effectiveness estimates. This coupled with a a hybrid deterministic-stochastic approach, where the stochastic model is used once incidence becomes smaller, will help identify expected timelines with stochastic uncertainty estimates. 
 
 %Conclusions
 %This should state clearly the main conclusions and provide an explanation of the importance and relevance of the study reported.
