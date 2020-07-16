@@ -7,22 +7,6 @@ Created on Fri Oct  4 12:46:27 2019
 
 from malaria_utils import *
 
-#def scenfn_rapid_testing(P, scen_name = 'Rapid testing', result=None, parset_name='default', progset_name='default',
-#                            start_year=2018, time_adjustments=None, **kwargs):
-#    if result is None:
-#        result = P.run_sim(progset=progset_name, progset_instructions=at.ProgramInstructions(start_year=start_year))
-##    coverage = result.get_coverage(year=[start_year]) #okay for continuous programs
-#    #Get the target pop size over 1 year
-#    coverage = _get_annual_average_coverage(result, start_year)
-#            
-#    tvec = [t for t in P.settings.tvec if t>=start_year]
-#    instructions = get_scenario_instructions(tvec = tvec, coverage = coverage, alloc = None,
-#                                             time_adjustments = time_adjustments) 
-#    
-#    scen = at.CombinedScenario(name=scen_name, parsetname=parset_name, progsetname=progset_name, instructions=instructions)
-#    
-#    return scen
-
 def scenfn_primaquine(P, result = None, start_year = 2020.83, scale_year = 2020.84, **kwargs):   # scale year when change in param occurs
     """
 
@@ -73,11 +57,11 @@ def scenfn_primaquine(P, result = None, start_year = 2020.83, scale_year = 2020.
 
     return scens
 
-def scenfn_immediate_testing(P, scale_year = 2025, **kwargs):
-    scen = scenfn_rapid_testing(P, scale_year = scale_year, **kwargs)
-
-    for par in ['p_rdt', 'p_rdt_s']:
-        for pop in scen.scenario_values[par].keys():
-            scen.scenario_values[par][pop]['y'][-1] = [1.0] #100% daily testing probability instead of the "rapid" doubling
-
-    return scen
+# def scenfn_immediate_testing(P, scale_year = 2025, **kwargs):
+#     scen = scenfn_rapid_testing(P, scale_year = scale_year, **kwargs)
+#
+#     for par in ['p_rdt', 'p_rdt_s']:
+#         for pop in scen.scenario_values[par].keys():
+#             scen.scenario_values[par][pop]['y'][-1] = [1.0] #100% daily testing probability instead of the "rapid" doubling
+#
+#     return scen

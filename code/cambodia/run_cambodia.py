@@ -72,7 +72,7 @@ def run_me(book_key):
     start_logging(folder=results_folder)  # create a log file of all the console output
 
     parset_name = 'default'
-    progset_name = 'default'
+    progset_name = ''  # 'default'
 
     """
     Instructions below are each of the different scenarios that will be run and output
