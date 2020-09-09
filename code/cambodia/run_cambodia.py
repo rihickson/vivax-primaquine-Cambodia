@@ -56,8 +56,8 @@ def run_me(book_key):
         raise Exception('Could not find a valid framework or databook, exiting.')
 
     if test_run:
-        plot_quality = 'preview'  # preview = low dpi, include legends, final = high dpi, separate legends
-        num_samples = 30
+        plot_quality = 'final'  # preview = low dpi, include legends, final = high dpi, separate legends
+        num_samples = 100
         results_folder = project_folder + '..%sResults%s%s%s' % (sep, sep, book_str + user_version(),
                                                                  sep)  # e.g. project files are in COUNTRY\Project\, results saved in COUNTRY\Results\date\
     else:

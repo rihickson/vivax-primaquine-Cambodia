@@ -44,7 +44,7 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
     for prov in prov_list:
         pops[prov] = {}
 
-    with open(r'../../data/cambodia_population_estimates.csv') as csvfile:
+    with open(r'../../csvs/cambodia_population_estimates.csv') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         header = next(reader)
         end_year = int(header[-1])
