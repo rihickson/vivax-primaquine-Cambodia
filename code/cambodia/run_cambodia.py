@@ -32,7 +32,7 @@ def run_me(book_key):
     time_adjustments = {
         'LLIN_m': {'start_time': 2011., 'end_time': end_year, 'cover_time': 0.5, 'timespan': 3.0, 'adjust_type': 'flat'}}
 
-    project_folder = get_apps_folder(country=country) + '/Project/'
+    project_folder = './Project/' #get_apps_folder(country=country)
 
     # %%OPTIONS Adjust these parameters to change the quality of the output
     todo = [  'plots',
