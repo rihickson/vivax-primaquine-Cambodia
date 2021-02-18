@@ -398,11 +398,10 @@ The aggregated data used for model calibration are provided in Additional file~\
 
 \subsection*{Epidemic model}
 
-The dynamic transmission model of \pv~is based on that by Scott~\etal~\cite{scott2017}. It accounts for transmission between humans and mosquitoes, with the conceptual disease progression in the model depicted in Fig~\ref{fig:model_flow}\todo{RMH: model diagram}. People in the model are identified as: susceptible; infected with \pv~in the liver only (hypnozoites and/or active liver stage); infected with active blood stage infection able to infect mosquitoes (gametocytes present -- further divided into clinical, severe, or asymptomatic); or recovered and immune (with no hypnozoites). The recovered and immune compartment is important for capturing \pv~dynamics given our current understanding of the importance of immunity in reducing transmission or symptomatic infections~\cite{}\todo{AD: fact check me}. The human population is stratified into males 15 years and older (M15+) and everyone else (Gen), to enable the primaquine intervention proposed in Cambodia to be captured by the model. Further details on the full model structure, parameter values, and calibration are provided in Additional file~\ref{supp}.
+The dynamic transmission model of \pv~is based on that by Scott~\etal~\cite{scott2017}. It accounts for transmission between humans and mosquitoes, with the conceptual disease progression in the model depicted in Fig~\ref{fig:model_flow}. People in the model are identified as: susceptible; infected with \pv~in the liver only (hypnozoites and/or active liver stage); infected with active blood stage infection able to infect mosquitoes (gametocytes present -- further divided into clinical, severe, or asymptomatic); or recovered and immune (with no hypnozoites). The recovered and immune compartment is important for capturing \pv~dynamics given our current understanding of the importance of immunity in reducing transmission or symptomatic infections~\cite{}\todo{AD: fact check me}. The human population is stratified into males 15 years and older (M15+) and everyone else (Gen), to enable the primaquine intervention proposed in Cambodia to be captured by the model. Further details on the full model structure, parameter values, and calibration are provided in Additional file~\ref{supp}.
 
 \begin{figure}[h!]
-  \caption{\csentence{Optima_Malaria_model_diagram.png}
-  Figure legend text.}
+\includegraphics[scale=0.35]{Optima_Malaria_model_diagram.png}\todo{Higher quality png export of this diagram}\label{fig:model_flow}\caption{\csentence{Optima Malaria model diagram}}
 \end{figure}
 
 \subsection*{Model calibration} \label{sec:calibration} % and validation 
@@ -411,17 +410,17 @@ Data on annual incidence (2011--2018), testing numbers, and demographics were us
 
 The population size was modelled in each province by group, including transitions from the general population (Gen) to adult males (M15+). The population model (births, deaths, and transitions) was calibrated to fit the known demographics of each province including estimated population size, known age and gender breakdown, and life expectancy.
 
-The incidence data was divided into 6 clusters by positive \pv~test results in 2018, and a province was chosen at random from each cluster, with the exception of Pursat which was deliberately chosen in keeping with the primaquine trial location. Provinces where the borders had changed during 2011--2018 were excluded from being chosen. The other five provinces considered are: Mondulkiri, Kampong Chhnang, Battambang, Pailin, and Takeo. 
+The incidence data was divided into 6 clusters by positive \pv~test results in 2018, and a province was chosen at random from each cluster, with the exception of Pursat which was deliberately chosen in keeping with the primaquine trial location. Provinces where the borders had changed during 2011--2018 were excluded from being chosen. The other five provinces considered were Mondulkiri, Kampong Chhnang, Battambang, Pailin, and Takeo. 
 
 The model was calibrated to the incidence and test data using parameters for the relative susceptibility of the population group to malaria infection; the probability of developing malaria-like symptoms for each person in a given year; the daily probability of testing for people with non-severe malaria-like symptoms such as fever; the daily probability of testing for people with severe malaria-like symptoms; the duration of the latent period (i.e. until hypnozoite reactivation); the proportion incompletely clearing hypnozoites after naturally recovering; and the proportion of new malaria cases that are asymptomatic (see Additional file~\ref{supp}: Table~\ref{calibrated_params}). To allow for changes in the surveillance system in Cambodia (see, for example, \cite{Pengby}), and changes in the other interventions through time, we calibrated to both a ``high'' and a ``low'' baseline incidence scenario. The ``high' scenario is for the true incidence to be consistent with the reported 2018 \pv~incidence data and increasing, and the ``low'' is for the true incidence to be consistent with the historical values prior to 2018 and decreasing. The true values for incidence likely lie within this range, but this enables us to capture both the best and worst case baseline scenario for elimination. Uncertainty bounds on the model results were generated by sampling $\pm10\%$ of the calibrated parameter values for 30 iterations, and represent 75\% of the subsequent range.
 
 \subsection*{Programmatic response considered}
 In order to directly address CNM's question about primaquine use in males over 15, this is the only programmatic response explicitly considered in the model. The effect of all other interventions that were previously used or are currently utilized are considered to be captured by the model calibration (see \S~\ref{sec:calibration}).
 
-The PQ programmatic response is considered to have four key parameters: start date (October 2020), coverage ($c$), eligibility for primaquine based on the proportion of the population with G6PD deficiency and RDT sensitivity ($G$), and the effectiveness of PQ in terms of hypnozoite removal ($E$: a combination of efficacy and adherence). The baseline scenario has no PQ, and a default value of $0.75$ of the population not clearing hypnozoites on successful treatment completion. The PQ scenario has, from the start date, $0.75(1-c)(1-G)(1-E)$ times the proportion of the population successfully completing treatments not clearing hypnozoites.  To determine if elimination of \pv~is possible by the target date, we consider the case where there is 1.0 coverage, no G6PD deficiency (1.0 of the population are eligible for PQ), and 1.0 effectiveness of PQ, meaning after treatment there are no M15+ with hypnozoites. This is beyond a ``best case scenario'', as these numbers are not achievable. Hence, if \pv~is still present in 2025 in the model results, PQ in males over 15 alone will not be sufficient for elimination.  
+The PQ programmatic response is considered to have four key parameters: start date (October 2020), coverage ($c$), eligibility for primaquine based on the proportion of the population with G6PD deficiency and RDT sensitivity ($G$), and the effectiveness of PQ in terms of hypnozoite removal ($E$: a combination of efficacy and adherence). The baseline scenario has no PQ, and a default value of $0.75$ of the population not clearing hypnozoites on successful treatment completion. In the PQ scenario, from the start date, each member of the population successfully completing treatment has a probability of $0.75(1-c)(1-G)(1-E)$ of not clearing hypnozoites.  To determine if elimination of \pv~is possible by the target date, we consider the case where there is 1.0 coverage, no G6PD deficiency (1.0 of the population are eligible for PQ), and 1.0 effectiveness of PQ, meaning after treatment there are no M15+ with hypnozoites. This is beyond a ``best case scenario'', as these numbers are not achievable. Hence, if \pv~is still present in 2025 in the model results, PQ in males over 15 alone will not be sufficient for elimination.  
 
 \subsection*{Surveillance}
-Given the expected substantial impact on transmission from providing PQ to M15+, we use a negative binomial to estimate how many tests would need to be conducted to be 0.99 confident of detecting at least one case, assuming 100\% sensitivity and specificity of the tests. We also use a binomial to identify the probability of detecting at least one case (assuming 100\% sensitivity and specificity) as the number of tests conducted changes, for the modelled incidence of \pv~in 2020 and 2025. The difference in particular is then indicative of considerations that will need to be given to existing surveillance to be confident that elimination has been reached.\todo{RH: do we need to find a positive case to be confident that elimination has been reached?}
+Given the expected substantial impact on transmission from providing PQ to M15+, we use a negative binomial to estimate how many tests would need to be conducted to be 0.99 confident of detecting at least one case, assuming 100\% sensitivity and specificity of the tests. We also use a binomial to identify the probability of detecting at least one case (assuming 100\% sensitivity and specificity) as the number of tests conducted changes, for the modelled incidence of \pv~in 2020 and 2025. The difference in particular is then indicative of considerations that will need to be given to existing surveillance to be confident that elimination has been reached.
 
 %\subsection*{Sensitivity analysis} % maybe not? uncertainty band, sure. But not in reported results for the impact of PQ.
 
@@ -576,46 +575,46 @@ The aggregated data used to conduct this analysis, as well as the code used to r
 
 \begin{figure}[h!]
 \centering
-\subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Mondul_Kiri_high_M15+.png}} 
-\subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Mondul_Kiri_high_Gen.png}} 
-\subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Mondul_Kiri_low_M15+.png}} 
-\subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Mondul_Kiri_low_Gen.png}} 
+\subcaptionbox{M15+, high.\label{Mondulkiri_high_M15+}}{\includegraphics[width=.45\linewidth]{Mondulkiri_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Mondulkiri_high_Gen}}{\includegraphics[width=.45\linewidth]{Mondulkiri_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{Mondulkiri_low_M15+}}{\includegraphics[width=.45\linewidth]{Mondulkiri_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Mondulkiri_low_Gen}}{\includegraphics[width=.45\linewidth]{Mondulkiri_low_Gen.png}} 
 \caption{\csentence{PQ intervention for \pv~in Mondulkiri.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Mondul_Kiri}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_high_M15+.png}} 
-\subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_high_Gen.png}} 
-\subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_low_M15+.png}} 
-\subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_low_Gen.png}} 
+\subcaptionbox{M15+, high.\label{Kampong_Chhnang_high_M15+}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Kampong_Chhnang_high_Gen}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{Kampong_Chhnang_low_M15+}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Kampong_Chhnang_low_Gen}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_low_Gen.png}} 
 \caption{\csentence{PQ intervention for \pv~in Kampong Chhnang.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Kampong_Chhnang}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Battambang_high_M15+.png}} 
-\subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Battambang_high_Gen.png}} 
-\subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Battambang_low_M15+.png}} 
-\subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Battambang_low_Gen.png}} 
+\subcaptionbox{M15+, high.\label{Battambang_high_M15+}}{\includegraphics[width=.45\linewidth]{Battambang_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Battambang_high_Gen}}{\includegraphics[width=.45\linewidth]{Battambang_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{Battambang_low_M15}}{\includegraphics[width=.45\linewidth]{Battambang_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Battambang_low_Gen}}{\includegraphics[width=.45\linewidth]{Battambang_low_Gen.png}} 
 \caption{\csentence{PQ intervention for \pv~in Battambang.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Battambang}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Pailin_high_M15+.png}} 
-\subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Pailin_high_Gen.png}} 
-\subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Pailin_low_M15+.png}} 
-\subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Pailin_low_Gen.png}} 
+\subcaptionbox{M15+, high.\label{Pailin_high_M15+}}{\includegraphics[width=.45\linewidth]{Pailin_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Pailin_high_Gen}}{\includegraphics[width=.45\linewidth]{Pailin_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{{Pailin_low_M15+}}{\includegraphics[width=.45\linewidth]{Pailin_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Pailin_low_Gen}}{\includegraphics[width=.45\linewidth]{Pailin_low_Gen.png}} 
 \caption{\csentence{PQ intervention for \pv~in Pailin.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Pailin}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Takeo_high_M15+.png}} 
-\subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Takeo_high_Gen.png}} 
-\subcaptionbox{M15+, low.\label{M15+_low}}{\includegraphics[width=.45\linewidth]{Takeo_low_M15+.png}} 
-\subcaptionbox{Gen, low.\label{Gen_low}}{\includegraphics[width=.45\linewidth]{Takeo_low_Gen.png}} 
+\subcaptionbox{M15+, high.\label{Takeo_high_M15+}}{\includegraphics[width=.45\linewidth]{Takeo_high_M15+.png}} 
+\subcaptionbox{Gen, high.\label{Takeo_high_Gen}}{\includegraphics[width=.45\linewidth]{Takeo_high_Gen.png}} 
+\subcaptionbox{M15+, low.\label{Takeo_low_M15+}}{\includegraphics[width=.45\linewidth]{Takeo_low_M15+.png}} 
+\subcaptionbox{Gen, low.\label{Takeo_low_Gen}}{\includegraphics[width=.45\linewidth]{Takeo_low_Gen.png}} 
 \caption{\csentence{PQ intervention for \pv~in Takeo.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Takeo}
 \end{figure}
 
