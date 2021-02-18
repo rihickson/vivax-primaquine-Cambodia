@@ -400,9 +400,9 @@ The aggregated data used for model calibration are provided in Additional file~\
 
 The dynamic transmission model of \pv~is based on that by Scott~\etal~\cite{scott2017}. It accounts for transmission between humans and mosquitoes, with the conceptual disease progression in the model depicted in Fig~\ref{fig:model_flow}. People in the model are identified as: susceptible; infected with \pv~in the liver only (hypnozoites and/or active liver stage); infected with active blood stage infection able to infect mosquitoes (gametocytes present -- further divided into clinical, severe, or asymptomatic); or recovered and immune (with no hypnozoites). The recovered and immune compartment is important for capturing \pv~dynamics given our current understanding of the importance of immunity in reducing transmission or symptomatic infections~\cite{}\todo{AD: fact check me}. The human population is stratified into males 15 years and older (M15+) and everyone else (Gen), to enable the primaquine intervention proposed in Cambodia to be captured by the model. Further details on the full model structure, parameter values, and calibration are provided in Additional file~\ref{supp}.
 
-\begin{figure}[h!]
-\includegraphics[scale=0.35]{Optima_Malaria_model_diagram.png}\todo{Higher quality png export of this diagram}\label{fig:model_flow}\caption{\csentence{Optima Malaria model diagram}}
-\end{figure}
+%\begin{figure}[h!]
+%\includegraphics[scale=0.35]{Optima_Malaria_model_diagram.png}\todo{Higher quality png export of this diagram}\label{fig:model_flow}\caption{\csentence{Optima Malaria model diagram}}
+%\end{figure}
 
 \subsection*{Model calibration} \label{sec:calibration} % and validation 
 
@@ -553,7 +553,7 @@ The aggregated data used to conduct this analysis, as well as the code used to r
 
 % -------------- Calibration example figs --------------
 
-\begin{figure}[h!]
+\begin{figure}[p!]
 \centering
 \subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Pursat_high_Incident_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Pursat_high_Incident_Gen.png}} 
@@ -564,7 +564,7 @@ The aggregated data used to conduct this analysis, as well as the code used to r
 
 
 % -------------- PQ impact figs --------------
-\begin{figure}[h!]
+\begin{figure}[p!]
 \centering
 \subcaptionbox{M15+, high.\label{M15+_high}}{\includegraphics[width=.45\linewidth]{Pursat_high_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Gen_high}}{\includegraphics[width=.45\linewidth]{Pursat_high_Gen.png}} 
@@ -573,7 +573,7 @@ The aggregated data used to conduct this analysis, as well as the code used to r
 \caption{\csentence{PQ intervention for \pv~in Pursat.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Pursat}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[p!]
 \centering
 \subcaptionbox{M15+, high.\label{Mondulkiri_high_M15+}}{\includegraphics[width=.45\linewidth]{Mondulkiri_high_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Mondulkiri_high_Gen}}{\includegraphics[width=.45\linewidth]{Mondulkiri_high_Gen.png}} 
@@ -582,7 +582,7 @@ The aggregated data used to conduct this analysis, as well as the code used to r
 \caption{\csentence{PQ intervention for \pv~in Mondulkiri.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Mondul_Kiri}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[p!]
 \centering
 \subcaptionbox{M15+, high.\label{Kampong_Chhnang_high_M15+}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_high_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Kampong_Chhnang_high_Gen}}{\includegraphics[width=.45\linewidth]{Kampong_Chhnang_high_Gen.png}} 
@@ -591,7 +591,7 @@ The aggregated data used to conduct this analysis, as well as the code used to r
 \caption{\csentence{PQ intervention for \pv~in Kampong Chhnang.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Kampong_Chhnang}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[p!]
 \centering
 \subcaptionbox{M15+, high.\label{Battambang_high_M15+}}{\includegraphics[width=.45\linewidth]{Battambang_high_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Battambang_high_Gen}}{\includegraphics[width=.45\linewidth]{Battambang_high_Gen.png}} 
@@ -600,16 +600,16 @@ The aggregated data used to conduct this analysis, as well as the code used to r
 \caption{\csentence{PQ intervention for \pv~in Battambang.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Battambang}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[p!]
 \centering
 \subcaptionbox{M15+, high.\label{Pailin_high_M15+}}{\includegraphics[width=.45\linewidth]{Pailin_high_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Pailin_high_Gen}}{\includegraphics[width=.45\linewidth]{Pailin_high_Gen.png}} 
-\subcaptionbox{M15+, low.\label{{Pailin_low_M15+}}{\includegraphics[width=.45\linewidth]{Pailin_low_M15+.png}} 
+\subcaptionbox{M15+, low.\label{Pailin_low_M15+}}{\includegraphics[width=.45\linewidth]{Pailin_low_M15+.png}} 
 \subcaptionbox{Gen, low.\label{Pailin_low_Gen}}{\includegraphics[width=.45\linewidth]{Pailin_low_Gen.png}} 
 \caption{\csentence{PQ intervention for \pv~in Pailin.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_Pailin}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[p!]
 \centering
 \subcaptionbox{M15+, high.\label{Takeo_high_M15+}}{\includegraphics[width=.45\linewidth]{Takeo_high_M15+.png}} 
 \subcaptionbox{Gen, high.\label{Takeo_high_Gen}}{\includegraphics[width=.45\linewidth]{Takeo_high_Gen.png}} 
@@ -662,7 +662,7 @@ The aggregated data used to conduct this analysis, as well as the code used to r
 %  \subsection*{Additional file 2 --- Sample additional file title}
 %    Additional file descriptions text.
 
-  \subsection*{Additional file 1 --- Model and data details}
+\subsection*{Additional file 1 --- Model and data details}
     Detailed descriptions of the model and data are provided here, including supplementary figures with a further breakdown on the modelled impact. 
 
 
