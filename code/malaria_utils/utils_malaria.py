@@ -25,8 +25,8 @@ def _get_gdrive_folder(country=None):
         country_str = '%s%sProject%s'%(country, sep, sep)
 
     apps_folder = '../'
-    user = 'guest'
-    user_initials = 'guest'
+    user = 'rmh'
+    user_initials = 'rmh'
         
     return path.join(path.abspath(apps_folder),''), user_initials  # ensure trailing separator
 
