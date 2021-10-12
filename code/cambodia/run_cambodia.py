@@ -15,9 +15,10 @@ def run_me(book_key):
     end_year = 2041.0
     uncertainty_flag = True  # whether or not to run with uncertainty
 
-    primdict = {'coverage': [0.0, 1.0], 'sensitivity_G6PDd': [0.0, 1.0],'efficacy': [0.0, 1.0]}  # extreme range to determine beyond best case possibility of elimination by 2025
+    primdict = {'coverage': [1.0], 'sensitivity_G6PDd': [1.0],'efficacy': [1.0]}  # extreme range to determine beyond best case possibility of elimination by 2025
 
-    date = '20200427'  # Use this line if you want to continue working on results from a previous day, otherwise it will save results to a new folder!
+    # date = '20200427'  # Use this line if you want to continue working on results from a previous day, otherwise it will save results to a new folder!
+    date = '20211012'
     utils_malaria.date = date
 
     country = 'cambodia'
@@ -56,16 +57,14 @@ def run_me(book_key):
         raise Exception('Could not find a valid framework or databook, exiting.')
 
     if test_run:
-        plot_quality = 'final'  # preview = low dpi, include legends, final = high dpi, separate legends
-        num_samples = 100
-        results_folder = project_folder + '..%sResults%s%s%s' % (sep, sep, book_str + user_version(),
-                                                                 sep)  # e.g. project files are in COUNTRY\Project\, results saved in COUNTRY\Results\date\
+        plot_quality = 'preview'  # preview = low dpi, include legends, final = high dpi, separate legends
+        num_samples = 0
     else:
         plot_quality = 'final'  # preview = low dpi, include legends, final = high dpi, separate legends
-        num_samples = 30  # number of samples for the uncertainty plots - 100 seems like a good number for reliable results
-        results_folder = project_folder + '..%sResults%s%s%s' % (sep, sep, book_str + user_version(),
-                                                                 sep)  # e.g. project files are in COUNTRY\Project\, results saved in COUNTRY\Results\date\
+        num_samples = 100  # number of samples for the uncertainty plots - 100 seems like a good number for reliable results
 
+    results_folder = project_folder + '..%sResults%s%s%s' % (sep, sep, book_str + user_version(),
+                                                             sep)  # e.g. project files are in COUNTRY\Project\, results saved in COUNTRY\Results\date\
     objects_folder = results_folder + 'Objects' + sep
     raw_results_folder = results_folder + 'Raw_results' + sep
 
@@ -85,14 +84,17 @@ def run_me(book_key):
     # each scenario has a function defined in opt_country.py
     scen_fns = sc.odict()
     scen_fns['Calibrated'] = scenfn_calibration
-    scen_fns['Primaquine'] = scenfn_primaquine
+    scen_fns['Primaquine males 15+'] = scenfn_primaquine_males
+    scen_fns['Primaquine all']       = scenfn_primaquine_all
 
 
     plot_sets = {
-        'Calibration': {'resnames': ['Calibrated'], 'plot_years': [start_year, end_year], 'plot_uncertainty': uncertainty_flag,
-                        'plots': ['keypars']},
-        'Primaquine': {'resnames': ['Primaquine'], 'plot_years': [2020, end_year], 'plot_uncertainty': uncertainty_flag,
-                       'plots': ['cascade_advanced']}
+        # 'Calibration': {'resnames': ['Calibrated'], 'plot_years': [start_year, end_year], 'plot_uncertainty': uncertainty_flag,
+        #                 'plots': ['keypars']},
+        'Primaquine males 15+': {'resnames': ['Calibrated', 'Primaquine males 15+'], 'plot_years': [start_year, end_year], 'plot_uncertainty': uncertainty_flag,
+                       'plots': ['keypars', 'cascade_advanced']},
+        'Primaquine all': {'resnames': ['Calibrated', 'Primaquine all'], 'plot_years': [start_year, end_year], 'plot_uncertainty': uncertainty_flag,
+                       'plots': ['keypars', 'cascade_advanced']}
     }
 
 # %%RUN EVERYTHING
@@ -100,9 +102,10 @@ def run_me(book_key):
 
     # %%LOAD FRAMEWORK AND DATABOOK
     F = at.ProjectFramework(framework_path)
-    P = at.Project(name=project_name, framework=F, sim_dt=5. / 365., sim_start=2011., sim_end=end_year, do_run=False)
+    P = at.Project(name=project_name, framework=F, sim_dt=5. / 365., sim_start=2011., sim_end=end_year, stochastic = True, do_run=False)
     P.load_databook(databook_path=databook_path, make_default_parset=True, do_run=False)
-
+    
+    
     # %%CREATE SCENARIOS (inc calibration)
     def_prog_args = {'parset': parset_name, 'progset': progset_name,
                      'progset_instructions': at.ProgramInstructions(start_year=2019)}
@@ -227,6 +230,7 @@ def run_me(book_key):
 
 if __name__ == '__main__':
     book_key_all = ['Pailin_low']
+    np.random.seed(10)
 
     global book_key
 

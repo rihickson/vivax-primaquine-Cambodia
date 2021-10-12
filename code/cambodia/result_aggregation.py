@@ -15,27 +15,32 @@ from datetime import date
 import scipy.optimize
 import csv
 import xlrd  # for reading excel
+from malaria_utils import *
 
 
-def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_make_plots=True):
+def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_make_plots=True, flag_elimination_comparison=True):
 
     # flag_all_prevalences = True  # if true, writes out all data for all pops. Otherwise, writes out dataframe as per DJP's request
     # flag_resort_data = False  # if true, make spreadsheets of reordered data
     # flag_make_plots = True  # if true, make new plots
 
-    prov_list = ['Pursat', 'Mondul_Kiri', 'Kampong_Chhnang', 'Battambang', 'Takeo', 'Pailin']
+    prov_list = ['Pursat', 'Mondul_Kiri', 'Kampong_Chhnang', 'Battambang', 'Takeo', 'Pailin'] #['Battambang'] #
 
     base_incidence = ['high', 'low']
 
     path_pre = './Results/'
     path_post = '/Raw_results/'
-    date = '20200427'
-    user = 'guest'
-    filenames = ['export_raw_scenario_0.0_0.0_0.0_' + date + '.xlsx', 'export_raw_scenario_1.0_1.0_1.0_' + date + '.xlsx']
+    object_path_post = '/Objects/'
+    date = '20211012' #'20200427'
+    user = 'rmh'
+    filenames = [f'export_raw_Calibrated_{date}.xlsx', f'export_raw_scenario_1.0_1.0_1.0_males_{date}.xlsx', f'export_raw_scenario_1.0_1.0_1.0_all_{date}.xlsx']
+    object_filenames = [f'sampled_results_Calibrated_{date}.obj',  f'sampled_results_scenario_1.0_1.0_1.0_males_{date}.obj', f'sampled_results_scenario_1.0_1.0_1.0_all_{date}.obj']
+
+    place_figs = './generated_figures/' #where to save results
 
     pop_names = ['M15+', 'Gen']
-    scen_names = ['no_prim', 'prim']
-    scen_plot_names = ['no PQ', 'PQ']
+    scen_names = ['no_prim', 'prim m15+', 'prim_all']
+    scen_plot_names = ['no PQ', 'PQ males 15+', 'PQ all']
     time_step = 365.0/5.0  # 5 day timestep is the default, update if you changed this
 
     # import the populations
@@ -57,7 +62,6 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
         file_to_open = 'aggregated_results_prevalences.csv'
         title_line = ['Scenario']
         [title_line.append(str(x)) for x in range(2011, end_year+1)]
-        # title_line = ['Scenario', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']
     else:
         file_to_open = 'aggregated_results.csv'
         title_line = ['Province', 'Baseline incidence', 'Intervention scenario', 'Year', 'Prevalence in M15+']
@@ -77,7 +81,7 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
 
                 for baseline in base_incidence:  # for each baseline incidence calibration
 
-                    for scen_ind in range(2):  # for each primaquine scenario (no or full)
+                    for scen_ind in range(3):  # for each primaquine scenario (no or full)
 
                         # read data from relevant sheet
                         reader = xlrd.open_workbook(path_pre + prov + '_' + baseline + '_' + date + '_' + user + path_post + filenames[scen_ind])
@@ -126,7 +130,7 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
                         if flag_all_prevalences:
                              # write to file
                             current_scenario = baseline + '_' + scen_names[scen_ind]
-                            for scen_ind in range(2):  # for each population type, add the scenario description then write to file
+                            for scen_ind in range(3):  # for each population type, add the scenario description then write to file
                                 data[scen_ind].insert(0, pop_names[scen_ind] + '_' + current_scenario)
                                 csv_writer.writerow(data[scen_ind])
 
@@ -143,10 +147,9 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
         active_malaria_rows = [35, 238]  # all_inf; M15+, Gen
         latent_malaria_rows = [5, 208]  # hL; M15+, Gen,           all these are -1 because python indexes from 0
         col_data_start = 4
-        line_col = ['b', 'r']
+        line_col = ['r', 'b', 'g']
 
         # directories etc
-        place_figs = './generated_figures/'
         tex_filename = place_figs + 'pv_pq_figs.tex'
 
         # if the directory we specify to put the files doesn't exist, create it
@@ -187,10 +190,10 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
                     # # adding prov to things to plot dict
                     # active_cases[prov][baseline][pop_names[pop_ind]] = dict()
                     # latent_cases[prov][baseline][pop_names[pop_ind]] = dict()
-
+                    print (f'Generating figure for {prov}, {baseline}, {pop_names[pop_ind]}')
                     pl.figure()
 
-                    for scen_ind in range(2):  # for each primaquine scenario (no or full)
+                    for scen_ind in range(3):  # for each primaquine scenario (no, males, or full)
 
 
                         # read data from relevant sheet
@@ -260,10 +263,52 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
             tex_to_write += end_fig(prov=prov)
 
         # write the 4-part figures into tex
+        print ('Generating tex output for figures')
         f = open(tex_filename, 'w')
         f.write(tex_to_write)
         f.close()
-
+            
+    if flag_elimination_comparison:
+        print ('Generating a comparison sheet of how often elimination targets may be met for each sampled scenario')
+        elim_target_years = [2025, 2030, 2035, 2040]
+        
+        elim_detailed_runs = None
+        num_runs = None
+        summary = [['Scenario'] + [f'Elimination by {year}' for year in elim_target_years]]
+        for prov in prov_list:  # for each province
+            for baseline in base_incidence:  # for each baseline incidence calibration
+                for scen_ind in range(3):  # for each primaquine scenario (no or full)
+                    summary_str = f'{prov}_{baseline}_{scen_plot_names[scen_ind]}'
+                    elim_by = []
+                    print (f'Reading... {summary_str}')
+                    # read sample data
+                    sr = sc.loadobj(path_pre + prov + '_' + baseline + '_' + date + '_' + user + object_path_post + object_filenames[scen_ind])
+                    if elim_detailed_runs is None: #first run, set up how many cases there are in the top row
+                        num_runs = len(sr)
+                        elim_detailed_runs = [['Scenario \ Run'] + list(range(num_runs))]
+                    for run, result in enumerate(sr):
+                        tot_diag = result[0].get_variable('h_inci_diag')[0].vals + result[0].get_variable('h_inci_diag')[1].vals
+                        elimination_starts = None
+                        elimination_confirmed = np.inf
+                        for ind, t in enumerate(result[0].get_variable('h_inci_diag')[0].t):
+                            if tot_diag[ind] == 0.:
+                                if elimination_starts is None:
+                                    elimination_starts = t
+                                elif t - 3. == elimination_starts: #3 full years with no malaria diagnoses
+                                    # print (f'elmination in run {run} at {t}!')
+                                    elimination_confirmed = t
+                                    break
+                            else:
+                                # if elimination_starts and t - 3. > elimination_starts:
+                                #     print (f'elimination in run {run} lost at {t} :(')
+                                elimination_starts = None
+                        elim_by.append(elimination_confirmed)
+                    
+                    summary.append([summary_str] + [float(len(np.where(np.array(elim_by)<target_year+1)[0]))/num_runs for target_year in elim_target_years])
+                    elim_detailed_runs.append([summary_str] + [eb if np.isfinite(eb) else "" for eb in elim_by])
+        
+        sc.savespreadsheet(filename='elimination_comparison.xlsx', data = [summary, elim_detailed_runs], folder = place_figs, sheetnames = ['summary', 'details'])
+                                    
 if __name__ == '__main__':
     run_post_processing(flag_all_prevalences=False, flag_resort_data=True, flag_make_plots=True)
 

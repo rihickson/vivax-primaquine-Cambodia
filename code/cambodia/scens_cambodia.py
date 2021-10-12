@@ -7,13 +7,14 @@ Created on Fri Oct  4 12:46:27 2019
 
 from malaria_utils import *
 
-def scenfn_primaquine(P, result = None, start_year = 2020.83, scale_year = 2020.84, **kwargs):   # scale year when change in param occurs
+def scenfn_primaquine(P, result = None, start_year = 2020.83, scale_year = 2020.84, target_pops = None, target_str = None, **kwargs):   # scale year when change in param occurs
     """
 
     :param P:
     :param result:
     :param start_year:
     :param scale_year:
+    :param target_pops: populations to be given Primaquine radical cure
     :param kwargs: Makes sure this includes coverage [worst-case, expected-case, best-case],
     sensitivity_G6PDd rapid test [worst-case, expected-case, best-case], and
     efficacy of the primaquine [worst-case, expected-case, best-case]
@@ -41,7 +42,7 @@ def scenfn_primaquine(P, result = None, start_year = 2020.83, scale_year = 2020.
 
         for par in ['IStx']:  # this is the parameter being changed, proportion
             scen.scenario_values[par] = sc.odict()
-            for pop in ['M 15+']:  # only males affected
+            for pop in target_pops:  # only males affected
                 popind = result.pop_names.index(pop)
                 start_ind = np.where(result.get_variable(par)[popind].t >= start_year)[0][0]
                 scen.scenario_values[par][pop] = sc.odict()
@@ -53,7 +54,7 @@ def scenfn_primaquine(P, result = None, start_year = 2020.83, scale_year = 2020.
     #                current_condition = scen.scenario_values[par][pop]['y'][0]
                 scen.scenario_values[par][pop]['y']+= [scen.scenario_values[par][pop]['y'][0] * (1-cov) * (1-sens) * (1 - eff)] # this models the primaquine rollout by Cambodia
 
-        scens['scenario_' + str(cov) + '_' + str(sens) + '_' + str(eff)] = scen
+        scens['scenario_' + str(cov) + '_' + str(sens) + '_' + str(eff) + '_' + target_str] = scen
 
     return scens
 
@@ -65,3 +66,10 @@ def scenfn_primaquine(P, result = None, start_year = 2020.83, scale_year = 2020.
 #             scen.scenario_values[par][pop]['y'][-1] = [1.0] #100% daily testing probability instead of the "rapid" doubling
 #
 #     return scen
+
+
+def scenfn_primaquine_males(**kwargs):
+    return scenfn_primaquine(target_pops = ['M 15+'], target_str = 'males', **kwargs)
+
+def scenfn_primaquine_all(**kwargs):
+    return scenfn_primaquine(target_pops = ['M 15+', 'Gen'], target_str = 'all', **kwargs)
