@@ -61,7 +61,7 @@ def run_me(book_key):
         num_samples = 0
     else:
         plot_quality = 'final'  # preview = low dpi, include legends, final = high dpi, separate legends
-        num_samples = 100  # number of samples for the uncertainty plots - 100 seems like a good number for reliable results
+        num_samples = 1000  # number of samples for the uncertainty plots - 1000 may be necessary for good results
 
     results_folder = project_folder + '..%sResults%s%s%s' % (sep, sep, book_str + user_version(),
                                                              sep)  # e.g. project files are in COUNTRY\Project\, results saved in COUNTRY\Results\date\

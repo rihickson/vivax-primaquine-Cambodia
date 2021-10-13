@@ -18,11 +18,10 @@ import xlrd  # for reading excel
 from malaria_utils import *
 
 
-def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_make_plots=True, flag_elimination_comparison=True):
-
-    # flag_all_prevalences = True  # if true, writes out all data for all pops. Otherwise, writes out dataframe as per DJP's request
-    # flag_resort_data = False  # if true, make spreadsheets of reordered data
+def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, annual_aggregation=True):
     # flag_make_plots = True  # if true, make new plots
+    # flag_elimination_comparison = True # if true, generate output spreadsheet for how frequently elimination occurs in sampled ensemble
+    # annual_aggregaton = True # if true aggregate values annually to provide smoother plots of just annual case totals
 
     prov_list = ['Pursat', 'Mondul_Kiri', 'Kampong_Chhnang', 'Battambang', 'Takeo', 'Pailin'] #['Battambang'] #
 
@@ -37,11 +36,22 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
     object_filenames = [f'sampled_results_Calibrated_{date}.obj',  f'sampled_results_scenario_1.0_1.0_1.0_males_{date}.obj', f'sampled_results_scenario_1.0_1.0_1.0_all_{date}.obj']
 
     place_figs = './generated_figures/' #where to save results
+    # if the directory we specify to put the files doesn't exist, create it
+    import os
+    if not os.path.isdir(place_figs):
+        os.mkdir(place_figs)
 
-    pop_names = ['M15+', 'Gen']
+    pop_names = ['M 15+', 'Gen']
+    pop_plots = {pop: [pop] for pop in pop_names}
+    pop_plots['Total'] = pop_names
+    
     scen_names = ['no_prim', 'prim m15+', 'prim_all']
     scen_plot_names = ['no PQ', 'PQ males 15+', 'PQ all']
-    time_step = 365.0/5.0  # 5 day timestep is the default, update if you changed this
+    scen_line_col = ['r', 'b', 'g']
+    time_step = 5.0/365.  # 5 day timestep is the default, update if you changed this
+    
+    parameters_of_interest = {'all_par': 'Latent prevalence', 'h_cases': 'Incident cases'} #CRITICAL these must be SUMMABLE by population.
+    par_line_style = ['--', '-']
 
     # import the populations
     population_data = []
@@ -58,233 +68,44 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
             if row[0] in prov_list:
                 pops[row[0]][row[1]] = row[2:]
 
-    if flag_all_prevalences:
-        file_to_open = 'aggregated_results_prevalences.csv'
-        title_line = ['Scenario']
-        [title_line.append(str(x)) for x in range(2011, end_year+1)]
-    else:
-        file_to_open = 'aggregated_results.csv'
-        title_line = ['Province', 'Baseline incidence', 'Intervention scenario', 'Year', 'Prevalence in M15+']
-
-    if flag_resort_data:
-        with open(file_to_open, mode='w') as csvfile:
-            csv_writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-            if not flag_all_prevalences:  # only need to write once for this format
-                csv_writer.writerow(title_line)
-
-            for prov in prov_list:  # for each province
-
-                if flag_all_prevalences:  # write province and repeat title line for this format
-                    csv_writer.writerow([prov])
-                    csv_writer.writerow(title_line)
-
-                for baseline in base_incidence:  # for each baseline incidence calibration
-
-                    for scen_ind in range(3):  # for each primaquine scenario (no or full)
-
-                        # read data from relevant sheet
-                        reader = xlrd.open_workbook(path_pre + prov + '_' + baseline + '_' + date + '_' + user + path_post + filenames[scen_ind])
-                        worksheet = reader.sheet_by_index(0)
-
-                        # pull out column names
-                        times = []
-                        for col in range(worksheet.ncols):
-                            times.append(worksheet.cell_value(0, col))
-
-                        # need to pull out `M 15 +: h_cases` = Row 48; `Gen: h_cases` = Row 251
-                        # values from col 4
-                        rows = [47, 250]  # -1 because python indexes from 0
-                        col_data_start = 4
-                        data = []
-
-                        for pop_ind in range(2):  # skip the first row since it was column names
-
-                            elm = []
-                            elm_check = []
-                            # get column indices for start and end of each year for amalgamation
-                            year_vals = np.unique([int(x) for x in times[col_data_start:]])
-                            start_year_indices = []
-                            end_year_indices = []
-                            for current_year in year_vals:
-                                all_matches = [times.index(i) for i in times if str(current_year) in str(i)]
-                                start_year_indices.append(all_matches[0])
-                                end_year_indices.append(all_matches[-1])
-
-                            for current_year_ind in range(len(start_year_indices)-1):
-                                col_year_start = start_year_indices[current_year_ind]
-                                col_year_end = end_year_indices[current_year_ind]
-                                year_sum = 0
-                                for col in range(col_year_start, col_year_end + 1):  # +1 because open bracket end of range
-                                    year_sum += (worksheet.cell_value(rows[pop_ind], col) / time_step)
-
-                                elm.append(year_sum / int(pops[prov][pop_names[pop_ind]][current_year_ind]))  #NB: just use `year_sum` here if want raw numbers of cases
-                                if not flag_all_prevalences:
-                                    # write desired years to file
-                                    if pop_ind==0 and year_vals[current_year_ind] == 2020:
-                                        csv_writer.writerow([prov, baseline, scen_names[scen_ind], '2020', elm[-1]])
-                                    if pop_ind==0 and year_vals[current_year_ind] == 2025:
-                                        csv_writer.writerow([prov, baseline, scen_names[scen_ind], '2025', elm[-1]])
-                            data.append(elm)
-
-                        if flag_all_prevalences:
-                             # write to file
-                            current_scenario = baseline + '_' + scen_names[scen_ind]
-                            for scen_ind in range(3):  # for each population type, add the scenario description then write to file
-                                data[scen_ind].insert(0, pop_names[scen_ind] + '_' + current_scenario)
-                                csv_writer.writerow(data[scen_ind])
-
-
-                print(prov + ' done')
-
-    # construct plots for paper from raw data files
-    if flag_make_plots:
-        # # tracking things to plot -- if wanted to store
-        # active_cases = dict()
-        # latent_cases = dict()
-        # need to pull out `M 15 +: h_cases` = Row 48; `Gen: h_cases` = Row 251
-        # values from col 4
-        active_malaria_rows = [35, 238]  # all_inf; M15+, Gen
-        latent_malaria_rows = [5, 208]  # hL; M15+, Gen,           all these are -1 because python indexes from 0
-        col_data_start = 4
-        line_col = ['r', 'b', 'g']
-
-        # directories etc
-        tex_filename = place_figs + 'pv_pq_figs.tex'
-
-        # if the directory we specify to put the files doesn't exist, create it
-        import os
-        if not os.path.isdir(place_figs):
-            os.mkdir(place_figs)
-
-        # base tex needed for the figure
-        start_fig = r'\begin{figure}[h!]' + '\n' \
-        r'\centering' + '\n'
-
-        def end_fig(prov):
-            end_fig_str = r'\caption{\csentence{PQ intervention for \pv~in ' + prov + r'.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_' + prov + r'}' + '\n' \
-        r'\end{figure}' + '\n' + '\n'
-            return end_fig_str
-
-        def mid_fig(pop, scenario, figfile):
-            sub_cap_str = r'\subcaptionbox{' + pop + ', ' + scenario + r'.\label{' + pop + '_' + scenario + r'}}{\includegraphics[width=.45\linewidth]{' + figfile + r'}} ' + '\n'
-            return sub_cap_str
-
-        tex_to_write = ''
-
-        for prov in prov_list:  # for each province
-
-            # # adding prov to things to plot dict
-            # active_cases[prov] = dict()
-            # latent_cases[prov] = dict()
-
-            # one 4 part figure per prov, start tex
-            tex_to_write += start_fig
-
-            for baseline in base_incidence:  # for each baseline incidence calibration
-                # # adding prov to things to plot dict
-                # active_cases[prov][baseline] = dict()
-                # latent_cases[prov][baseline] = dict()
-
-                for pop_ind in range(2):  # skip the first row since it was column names
-                    # # adding prov to things to plot dict
-                    # active_cases[prov][baseline][pop_names[pop_ind]] = dict()
-                    # latent_cases[prov][baseline][pop_names[pop_ind]] = dict()
-                    print (f'Generating figure for {prov}, {baseline}, {pop_names[pop_ind]}')
-                    pl.figure()
-
-                    for scen_ind in range(3):  # for each primaquine scenario (no, males, or full)
-
-
-                        # read data from relevant sheet
-                        reader = xlrd.open_workbook(path_pre + prov + '_' + baseline + '_' + date + '_' + user + path_post + filenames[scen_ind])
-                        worksheet = reader.sheet_by_index(0)
-                        # pull out column names
-                        times = []
-                        for col in range(worksheet.ncols):
-                            times.append(worksheet.cell_value(0, col))
-
-
-                        all_inf = []
-                        latent = []
-                        # get column indices for start and end of each year for amalgamation
-                        year_vals = list(np.unique([int(x) for x in times[col_data_start:]]))
-                        start_year_indices = []
-                        end_year_indices = []
-                        for current_year in year_vals:
-                            all_matches = [times.index(i) for i in times if str(current_year) in str(i)]
-                            start_year_indices.append(all_matches[0])
-                            end_year_indices.append(all_matches[-1])
-
-                        for current_year_ind in range(len(start_year_indices)):
-                            col_year_start = start_year_indices[current_year_ind]
-                            col_year_end = end_year_indices[current_year_ind]
-                            year_sum_all_inf = 0  # this is `all_ac, hE, haP, haPs, haPt`
-                            year_sum_lt = 0
-                            for col in range(col_year_start, col_year_end + 1):  # +1 because open bracket end of range
-                                year_sum_all_inf += worksheet.cell_value(active_malaria_rows[pop_ind], col) / time_step
-                                year_sum_lt += (worksheet.cell_value(latent_malaria_rows[pop_ind], col)) / time_step
-
-                            all_inf.append(year_sum_all_inf)
-                            latent.append(year_sum_lt)
-                            # latent.append(year_sum_lt * int(pops[prov][pop_names[pop_ind]][current_year_ind]))  # if using `lt_prev`
-
-
-                        # # adding prov to things to plot dict
-                        # active_cases[prov][baseline][scen_names[scen_ind]] = all_inf
-                        # latent_cases[prov][baseline][scen_names[scen_ind]] = all_lt
-
-                        # make plot
-                        # from 2020
-                        year_ind = year_vals.index(2015)
-                        pl.plot(year_vals[year_ind:-1], all_inf[year_ind:-1], line_col[scen_ind] + '-', label='Active Pv, ' + scen_plot_names[scen_ind])
-                        pl.plot(year_vals[year_ind:-1], latent[year_ind:-1], line_col[scen_ind] + '--', label='Latent Pv, ' + scen_plot_names[scen_ind])
-
-                    # add labels and legend
-                    pl.xlabel('Year')
-                    pl.ylabel('Number of cases')
-                    pl.legend(loc='best')
-
-                    # add elimination target vertical dashed line
-                    axes = pl.gca()
-                    ymax = max(axes.get_ylim())
-                    pl.plot([2026, 2026], [0, ymax], ':k', label='Elimination target')
-                    pl.ylim((0, ymax))
-
-                    # save figures to file, and close so not too many open in python
-                    filename = prov + '_' + baseline + '_' + pop_names[pop_ind] + '.png'
-                    pl.savefig(place_figs + filename)
-                    pl.close('all')
-
-                    # add info to string to write to tex file later
-                    tex_to_write += mid_fig(pop=pop_names[pop_ind], scenario=baseline, figfile=filename)
-
-            # add end of figure text to string to write to tex file later
-            tex_to_write += end_fig(prov=prov)
-
-        # write the 4-part figures into tex
-        print ('Generating tex output for figures')
-        f = open(tex_filename, 'w')
-        f.write(tex_to_write)
-        f.close()
-            
+    """Setup"""
     if flag_elimination_comparison:
         print ('Generating a comparison sheet of how often elimination targets may be met for each sampled scenario')
         elim_target_years = [2025, 2030, 2035, 2040]
         
-        elim_detailed_runs = None
+        elim_detailed_runs = None #store when elimination happens in each run of the model
         num_runs = None
-        summary = [['Scenario'] + [f'Elimination by {year}' for year in elim_target_years]]
-        for prov in prov_list:  # for each province
-            for baseline in base_incidence:  # for each baseline incidence calibration
-                for scen_ind in range(3):  # for each primaquine scenario (no or full)
-                    summary_str = f'{prov}_{baseline}_{scen_plot_names[scen_ind]}'
-                    elim_by = []
-                    print (f'Reading... {summary_str}')
-                    # read sample data
-                    sr = sc.loadobj(path_pre + prov + '_' + baseline + '_' + date + '_' + user + object_path_post + object_filenames[scen_ind])
+        summary = [['Scenario'] + [f'Elimination by {year}' for year in elim_target_years]] #store when elimination occurs.
+
+
+
+    """Loop through each set of results, only load each result once"""
+    
+    tex_to_write = ''   
+    # base tex needed for the figure
+    start_fig = r'\begin{figure}[h!]' + '\n' + r'\centering' + '\n'                     
+    
+    for prov in prov_list:  # for each province
+    
+        tex_to_write += start_fig
+        for baseline in base_incidence:  # for each baseline incidence calibration
+            prov_base_data = dict()
+        
+            for scen_ind, scen in enumerate(scen_names):  # for each primaquine scenario (no, males, full)
+                summary_str = f'{prov}_{baseline}_{scen_plot_names[scen_ind]}'
+                elim_by = []
+                print (f'Reading... {summary_str}')
+                prov_base_data[scen] = dict()
+                # read ensemble data
+                sr = sc.loadobj(path_pre + prov + '_' + baseline + '_' + date + '_' + user + object_path_post + object_filenames[scen_ind])
+                num_runs = len(sr)
+                run_years = sr[0][0].t
+                plot_years = range(int(min(run_years)), int(max(run_years))+1, 1) if annual_aggregation else run_years
+
+                """Save elimination data to spreadsheets"""
+                if flag_elimination_comparison:
                     if elim_detailed_runs is None: #first run, set up how many cases there are in the top row
-                        num_runs = len(sr)
+                        
                         elim_detailed_runs = [['Scenario \ Run'] + list(range(num_runs))]
                     for run, result in enumerate(sr):
                         tot_diag = result[0].get_variable('h_inci_diag')[0].vals + result[0].get_variable('h_inci_diag')[1].vals
@@ -306,7 +127,74 @@ def run_post_processing(flag_all_prevalences=True, flag_resort_data=True, flag_m
                     
                     summary.append([summary_str] + [float(len(np.where(np.array(elim_by)<target_year+1)[0]))/num_runs for target_year in elim_target_years])
                     elim_detailed_runs.append([summary_str] + [eb if np.isfinite(eb) else "" for eb in elim_by])
+
+                for par in parameters_of_interest.keys():
+                    prov_base_data[scen][par] = dict()
+                    for pop in pop_names:
+                        par_pop_array = np.array([sri[0].get_variable(par, pop)[0].vals for sri in sr])
+                        if annual_aggregation:
+                            time_steps_per_year = 1/time_step
+                            par_pop_array = np.array([[np.average(pa[int(yr*time_steps_per_year):int((yr+1)*time_steps_per_year)], axis=0) for yr in range(len(plot_years))] for pa in par_pop_array])
+                        prov_base_data[scen][par][pop] = np.median(par_pop_array, axis=0)
+            
+            """Now do things with prov_base_data (for a given province and baseline calibration)"""
+            if flag_make_plots:
+                       
+                def end_fig(prov):
+                    end_fig_str = r'\caption{\csentence{PQ intervention for \pv~in ' + prov + r'.} Vertical dashed line is the current elimination target for \pv.}\label{fig:pq_' + prov + r'}' + '\n' \
+                r'\end{figure}' + '\n' + '\n'
+                    return end_fig_str
         
+                def mid_fig(pop, scenario, figfile):
+                    sub_cap_str = r'\subcaptionbox{' + pop + ', ' + scenario + r'.\label{' + pop + '_' + scenario + r'}}{\includegraphics[width=.45\linewidth]{' + figfile + r'}} ' + '\n'
+                    return sub_cap_str
+        
+                for pop_plot_ind, pop_key in enumerate(pop_plots):  # skip the first row since it was column names
+                    print (f'Generating figure for {prov}, {baseline}, {pop_key}')
+                    pl.figure()
+
+                    for scen_ind, scen in enumerate(scen_names):  # for each primaquine scenario (no, males, full)
+                        start_year = 2015.
+                        start_ind = list(plot_years).index(start_year)
+                    
+                        for p_ind, par in enumerate(parameters_of_interest.keys()):
+                            style = scen_line_col[scen_ind] + par_line_style[p_ind]
+                            label = parameters_of_interest[par] + ' ' + scen_plot_names[scen_ind]
+                            data = np.sum(np.array([prov_base_data[scen][par][pop_label] for pop_label in pop_plots[pop_key]]), axis=0)
+                            pl.plot(plot_years[start_ind:], data[start_ind:], style, label=label)
+
+                    # add labels and legend
+                    pl.xlabel('Year')
+                    pl.ylabel('Number of cases')
+                    pl.legend(loc='best')
+
+                    # add elimination target vertical dashed line
+                    axes = pl.gca()
+                    ymax = max(axes.get_ylim())
+                    pl.plot([2026, 2026], [0, ymax], ':k', label='Elimination target')
+                    pl.ylim((0, ymax))
+
+                    # save figures to file, and close so not too many open in python
+                    filename = prov + '_' + baseline + '_' + pop_key + '.png'
+                    pl.savefig(place_figs + filename)
+                    pl.close('all')
+
+                    # add info to string to write to tex file later
+                    tex_to_write += mid_fig(pop=pop_key, scenario=baseline, figfile=filename)
+
+            # add end of figure text to string to write to tex file later
+            tex_to_write += end_fig(prov=prov)
+                    
+    if flag_make_plots:
+        # directories etc
+        tex_filename = place_figs + 'pv_pq_figs.tex'
+        # write the 4-part figures into tex
+        print ('Generating tex output for figures')
+        f = open(tex_filename, 'w')
+        f.write(tex_to_write)
+        f.close()
+
+    if flag_elimination_comparison:
         sc.savespreadsheet(filename='elimination_comparison.xlsx', data = [summary, elim_detailed_runs], folder = place_figs, sheetnames = ['summary', 'details'])
                                     
 if __name__ == '__main__':
