@@ -15,7 +15,7 @@ def run_me(book_key):
     end_year = 2041.0
     uncertainty_flag = True  # whether or not to run with uncertainty
 
-    primdict = {'coverage': [1.0], 'sensitivity_G6PDd': [1.0],'efficacy': [1.0]}  # extreme range to determine beyond best case possibility of elimination by 2025
+    primdict = {'coverage': [0.9, 1.0], 'sensitivity_G6PDd': [0.9, 1.0],'efficacy': [0.88, 1.0]}  # extreme range to determine beyond best case possibility of elimination by 2025
 
     # date = '20200427'  # Use this line if you want to continue working on results from a previous day, otherwise it will save results to a new folder!
     date = '20211012'
@@ -40,7 +40,7 @@ def run_me(book_key):
         'raw_results'
     ]
     save_figs = True  # Probably leave as True, but False if you want to just see them in the console instead without saving
-    load_objects = False  # re-use previously generated optimization results and uncertainty sampling if they exist (otherwise rerun)
+    load_objects = True  # re-use previously generated optimization results and uncertainty sampling if they exist (otherwise rerun)
     test_run = False  # run optimizations and sampling for a bare minimum number of times to test that everything is working
     key_year = 2017  # for e.g. calibration cascades
     plot_language = 'English'
@@ -58,7 +58,7 @@ def run_me(book_key):
 
     if test_run:
         plot_quality = 'preview'  # preview = low dpi, include legends, final = high dpi, separate legends
-        num_samples = 0
+        num_samples = 100
     else:
         plot_quality = 'final'  # preview = low dpi, include legends, final = high dpi, separate legends
         num_samples = 1000  # number of samples for the uncertainty plots - 1000 may be necessary for good results
