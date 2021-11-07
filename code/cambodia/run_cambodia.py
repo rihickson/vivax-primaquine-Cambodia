@@ -45,10 +45,11 @@ def run_me(book_key):
     key_year = 2017  # for e.g. calibration cascades
     plot_language = 'English'
 
-    confidence_interval = 'quartile'  # options: quartile for 75% range, ci for 95% range, samples for beautiful plots with every line individually that may not have appropriate legends
+    confidence_interval = 'samples'  # options: quartile for 75% range, ci for 95% range, samples for beautiful plots with every line individually that may not have appropriate legends
     plot_against_data_only = False  # if true, only output all the line plots where data exists (useful/faster for calibration!)
-    np.random.seed(72)  # set a random seed for reproducible results
-    run_parallel = False  # True may or may not work
+    np.random.seed(72)  # set a random seed for reproducible results (should apply to optimization?)
+    rand_seed = 22      #applying to the model runs and sampling with generators
+    run_parallel = True  # True may or may not work
 
     # get paths for model framework and data book, expected to be in a `<country>/Projects/` directory structure
     framework_path = get_paths(project_folder, 'framework', version='latest', verbose=True)
@@ -58,10 +59,10 @@ def run_me(book_key):
 
     if test_run:
         plot_quality = 'preview'  # preview = low dpi, include legends, final = high dpi, separate legends
-        num_samples = 100
+        num_samples = 18
     else:
         plot_quality = 'final'  # preview = low dpi, include legends, final = high dpi, separate legends
-        num_samples = 1000  # number of samples for the uncertainty plots - 1000 may be necessary for good results
+        num_samples = 100  # number of samples for the uncertainty plots - 1000 may be necessary for good results
 
     results_folder = project_folder + '..%sResults%s%s%s' % (sep, sep, book_str + user_version(),
                                                              sep)  # e.g. project files are in COUNTRY\Project\, results saved in COUNTRY\Results\date\
@@ -94,7 +95,7 @@ def run_me(book_key):
         'Primaquine males 15+': {'resnames': ['Calibrated', 'Primaquine males 15+'], 'plot_years': [start_year, end_year], 'plot_uncertainty': uncertainty_flag,
                        'plots': ['keypars', 'cascade_advanced']},
         'Primaquine all': {'resnames': ['Calibrated', 'Primaquine all'], 'plot_years': [start_year, end_year], 'plot_uncertainty': uncertainty_flag,
-                       'plots': ['keypars', 'cascade_advanced']}
+                        'plots': ['keypars', 'cascade_advanced']}
     }
 
 # %%RUN EVERYTHING
@@ -102,13 +103,13 @@ def run_me(book_key):
 
     # %%LOAD FRAMEWORK AND DATABOOK
     F = at.ProjectFramework(framework_path)
-    P = at.Project(name=project_name, framework=F, sim_dt=5. / 365., sim_start=2011., sim_end=end_year, stochastic = True, do_run=False)
+    P = at.Project(name=project_name, framework=F, sim_dt=5. / 365., sim_start=2011., sim_end=end_year, stochastic = False, do_run=False)
     P.load_databook(databook_path=databook_path, make_default_parset=True, do_run=False)
     
     
     # %%CREATE SCENARIOS (inc calibration)
     def_prog_args = {'parset': parset_name, 'progset': progset_name,
-                     'progset_instructions': at.ProgramInstructions(start_year=2019)}
+                     'progset_instructions': at.ProgramInstructions(start_year=2019), 'rng': rand_seed}
     def_prog_result = try_loading(function=P.run_sim, fnargs=def_prog_args,
                                   obj_filename='Baseline_with_progs_%s' % (date),
                                   obj_folder=objects_folder, run_if_unfound=True, load_objects=load_objects)
@@ -134,7 +135,7 @@ def run_me(book_key):
             else:
                 raise Exception('Cannot convert %s to one or more scenarios.' % (type(scen)))
 
-    # %%RUN ALL SCENARIOS (inc optimizations)
+    # %%RUN ALL SCENARIOS (inc optimizations) -> as deterministic runs
     for scen_name in P.scens.keys():
         scen = P.scens[scen_name]
         print('Loading or running %s' % (scen_name))
@@ -147,7 +148,7 @@ def run_me(book_key):
                 progset=P.progsets[progset_name], project=P)
             instructions = None if isinstance(scen, at.ParameterScenario) else scen.get_instructions(
                 progset=P.progsets[progset_name], project=P)
-            run_args = {'parset': parset, 'progset': progset, 'progset_instructions': instructions}
+            run_args = {'parset': parset, 'progset': progset, 'progset_instructions': instructions, 'rng': rand_seed}
             result = try_loading(function=P.run_sim, fnargs=run_args,
                                  obj_filename='Scenario result_%s_%s' % (scen_name, date),
                                  obj_folder=objects_folder, run_if_unfound=True, load_objects=load_objects)
@@ -167,16 +168,34 @@ def run_me(book_key):
                 local_samples = []
                 for res_name in [res.name for res in local_results]:
                     if uncertainty and ('plots' in todo or 'raw_results' in todo):
-                        print('Loading or running sampled results with uncertainty for %s for use in %s' % (
-                        res_name, plot_set))
+                        print('Loading or running sampled results with uncertainty for %s for use in %s' % (res_name, plot_set))
+                        P.settings.stochastic = True
                         scen = P.scens[res_name]
                         parset = scen.get_parset(parset=P.parsets[parset_name], project=P)
                         progset = None if isinstance(scen, at.ParameterScenario) else scen.get_progset(
                             progset=P.progsets[progset_name], project=P)
                         instructions = None if isinstance(scen, at.ParameterScenario) else scen.get_instructions(
                             progset=P.progsets[progset_name], project=P)
+                        
+                        #set acceptance_criteria for key parameters based on the calibrated deterministic model run values from 2018
+                        acceptance_criteria = []
+                        acceptance_pars = ['h_cases']
+                        acceptance_years = [(2018, 2018.99)]
+                        acceptance_tolerance = 0.5 # +-10% acceptable
+                        res_ind = [res.name for res in results].index(res_name)
+                        for a_par in acceptance_pars:
+                            for a_year in acceptance_years:
+                                res_par = results[res_ind].get_variable(a_par)
+                                t_inds = np.where(np.logical_and(res_par[0].t>=a_year[0], res_par[0].t<=a_year[1]))
+                                for pop_data in res_par:
+                                    a_val = np.mean(pop_data.vals[t_inds]) #annualized so always average
+                                    acceptance_criteria.append({'parameter': a_par, 'population': pop_data.pop.name, 't_range': a_year, 'value': (a_val*(1.-acceptance_tolerance), a_val*(1.+acceptance_tolerance))})
+                        
+                        print (res_name, ': ', acceptance_criteria)
+                        
                         run_args = {'parset': parset, 'progset': progset, 'progset_instructions': instructions,
-                                    'n_samples': num_samples, 'parallel': run_parallel}
+                                    'n_samples': num_samples, 'parallel': run_parallel, 'rand_seed': rand_seed,
+                                    'acceptance_criteria': acceptance_criteria}
                         sampled_result = try_loading(function=P.run_sampled_sims, fnargs=run_args,
                                                      obj_filename='sampled_results_%s_%s.obj' % (res_name, date),
                                                      obj_folder=objects_folder, run_if_unfound=True,
@@ -230,7 +249,6 @@ def run_me(book_key):
 
 if __name__ == '__main__':
     book_key_all = ['Pailin_low']
-    np.random.seed(10)
 
     global book_key
 
