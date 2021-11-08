@@ -189,13 +189,14 @@ def run_me(book_key):
                                 t_inds = np.where(np.logical_and(res_par[0].t>=a_year[0], res_par[0].t<=a_year[1]))
                                 for pop_data in res_par:
                                     a_val = np.mean(pop_data.vals[t_inds]) #annualized so always average
-                                    acceptance_criteria.append({'parameter': a_par, 'population': pop_data.pop.name, 't_range': a_year, 'value': (a_val*(1.-acceptance_tolerance), a_val*(1.+acceptance_tolerance))})
+                                    a_vals = (np.floor(a_val*(1.-acceptance_tolerance)), np.ceil(a_val*(1.+acceptance_tolerance)))
+                                    acceptance_criteria.append({'parameter': a_par, 'population': pop_data.pop.name, 't_range': a_year, 'value': a_vals})
                         
                         print (res_name, ': ', acceptance_criteria)
                         
                         run_args = {'parset': parset, 'progset': progset, 'progset_instructions': instructions,
                                     'n_samples': num_samples, 'parallel': run_parallel, 'rand_seed': rand_seed,
-                                    'acceptance_criteria': acceptance_criteria}
+                                    'acceptance_criteria': acceptance_criteria, 'max_attempts': 500}
                         sampled_result = try_loading(function=P.run_sampled_sims, fnargs=run_args,
                                                      obj_filename='sampled_results_%s_%s.obj' % (res_name, date),
                                                      obj_folder=objects_folder, run_if_unfound=True,

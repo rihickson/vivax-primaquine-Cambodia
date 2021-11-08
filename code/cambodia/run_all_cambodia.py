@@ -17,15 +17,16 @@ if __name__ == '__main__':
     global book_key
     
     # run the model for all provinces, for low and high baseline incidences
-    for i in range(book_batches):
-        num_per_batch = int(len(book_key_all)/book_batches)
-        book_keys = book_key_all[i * num_per_batch:(i+1)*num_per_batch]
-        print (f'Running batch {i+1}: {book_keys}')
-        sc.parallelize(run_me, book_keys)
-        gc.collect() #clear memory
+    # for i in range(book_batches):
+    #     num_per_batch = int(len(book_key_all)/book_batches)
+    #     book_keys = book_key_all[i * num_per_batch:(i+1)*num_per_batch]
+    #     print (f'Running batch {i+1}: {book_keys}')
+    #     sc.parallelize(run_me, book_keys)
+    #     gc.collect() #clear memory
         
-    # for prov in book_key_all:
-    #     run_me(prov)
+    for prov in book_key_all:
+        run_me(prov)
+        gc.collect() #clear memory
     
     # aggregate and plot the results (shown in paper)
     from result_aggregation import run_post_processing
