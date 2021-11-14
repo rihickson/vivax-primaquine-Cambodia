@@ -15,8 +15,7 @@ scratch*.py
 *archive*
 *venv*
 *.idea*
-*Results*
-*generated*
 *.DS_Store*
+*Results*
 
 

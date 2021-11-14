@@ -22,7 +22,7 @@ import pandas as pd
 from bar_plots_cambodia import *
 
 
-def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, annual_aggregation=True):
+def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, annual_aggregation=True, res_rename=''):
     # flag_make_plots = True  # if true, make new plots
     # flag_elimination_comparison = True # if true, generate output spreadsheet for how frequently elimination occurs in sampled ensemble
     # annual_aggregaton = True # if true aggregate values annually to provide smoother plots of just annual case totals
@@ -31,7 +31,7 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
 
     base_incidence = ['high', 'low']
 
-    path_pre = './Results/'
+    path_pre = f'./Results{res_rename}/'
     path_post = '/Raw_results/'
     object_path_post = '/Objects/'
     date = '20211012' #'20200427'
@@ -68,24 +68,28 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
     
     elimination_pars = ['indig_cases', 'h_cases', 'h_inci_diag'] #parameters that could be considered stages of elimination to output detailed analysis for
 
-    place_figs = './generated_figures/' #where to save results
+    place_figs = f'./generated_figures{res_rename}/' #where to save results
     # if the directory we specify to put the files doesn't exist, create it
     import os
     if not os.path.isdir(place_figs):
         os.mkdir(place_figs)
 
     pop_names = ['M 15+', 'Gen']
-    pop_plots = {pop: [pop] for pop in pop_names}
-    pop_plots['Total'] = pop_names
+    # pop_plots = {pop: [pop] for pop in pop_names}
+    # pop_plots['Total'] = pop_names
+    pop_plots = {'Total': ['M 15+', 'Gen']}
     
     scen_names = [scen['scen_name'] for scen in scenarios.values()]
     scen_plot_names = list(scenarios.keys())
     scen_line_col = [scen['scen_line_col'] for scen in scenarios.values()]
     time_step = 5.0/365.  # 5 day timestep is the default, update if you changed this
     
-    par_plots = {#'indigenous_cases': {'indig_cases': ('New indigenous cases', '-')},
-                 #'active_cases':     {'h_cases': ('Incident active cases', '-')},
-                 'diagnosed_cases':  {'h_inci_diag': ('Diagnosed cases', '-')}} #CRITICAL these must be SUMMABLE by population.
+    par_plots = {'indigenous_cases': {'indig_cases': ('New indigenous cases', '-.')},
+                  'active_cases':     {'h_cases': ('Incident active cases', '-')},
+                 #'diagnosed_cases':  {'h_inci_diag': ('Diagnosed cases', '-')}
+                'cases': {'indig_cases': ('New indigenous cases', '-.'), 'h_cases': ('Incident active cases', '-')},
+                 } #CRITICAL these must be SUMMABLE by population.
+
 
     # import the populations
     population_data = []
@@ -134,7 +138,7 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
                 sr = sc.loadobj(path_pre + prov + '_' + baseline + '_' + date + '_' + user + object_path_post + object_filenames[scen_ind])
                 num_runs = len(sr)
                 run_years = sr[0][0].t
-                plot_years = range(int(min(run_years)), int(max(run_years))+1, 1) if annual_aggregation else run_years
+                plot_years = range(int(min(run_years)), int(max(run_years)), 1) if annual_aggregation else run_years
                 
                 """Save elimination data to spreadsheets"""
                 if flag_elimination_comparison:
@@ -212,13 +216,14 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
                         
                             for par in parameters_of_interest:
                                 style = scen_line_col[scen_ind] + par_line_style[par]
-                                label = par_labels[par] + ' ' + scen_plot_names[scen_ind]
+                                label = par_labels[par] + ' ' + scen_plot_names[scen_ind] if len(parameters_of_interest)>1 else scen_plot_names[scen_ind]
                                 data = np.sum(np.array([prov_base_data[scen][par][pop_label] for pop_label in pop_plots[pop_key]]), axis=0)
                                 pl.plot(plot_years[start_ind:], data[start_ind:], style, label=label)
     
                         # add labels and legend
                         pl.xlabel('Year')
-                        pl.ylabel('Number of cases')
+                        ylabel = 'Number of cases' if len(parameters_of_interest)>1 else par_labels[parameters_of_interest[0]]
+                        pl.ylabel(ylabel)
                         pl.legend(loc='best')
     
                         # add elimination target vertical dashed line
@@ -254,6 +259,6 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
             load_and_plot_bars(place_figs)
                    
 if __name__ == '__main__':
-    run_post_processing(flag_all_prevalences=False, flag_resort_data=True, flag_make_plots=True)
+    run_post_processing(res_rename='_300_runs_seed_89')
 
 
