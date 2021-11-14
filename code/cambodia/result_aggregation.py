@@ -11,11 +11,15 @@ import numpy as np
 from scipy.integrate import solve_ivp
 import scipy.stats as st
 import matplotlib.pyplot as pl
+from matplotlib.ticker import MaxNLocator
+import matplotlib.gridspec as gridspec
 from datetime import date
 import scipy.optimize
 import csv
 import xlrd  # for reading excel
 from malaria_utils import *
+import pandas as pd
+from bar_plots_cambodia import *
 
 
 def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, annual_aggregation=True):
@@ -33,26 +37,26 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
     date = '20211012' #'20200427'
     user = 'rmh'
     
-    scenarios = {'no PQ': {
+    scenarios = {'Status quo': {
         'filename': f'export_raw_Calibrated_{date}.xlsx',
         'object_filename': f'sampled_results_Calibrated_{date}.obj',
         'scen_name': 'no_prim',
         'scen_line_col': 'r',
         },
-        'best PQ males 15+':{
+        'Best case PQ males 15+':{
         'filename': f'export_raw_scenario_0.9_0.9_0.88_males_{date}.xlsx',
         'object_filename': f'sampled_results_scenario_0.9_0.9_0.88_males_{date}.obj',
         'scen_name': 'best prim m15+',
         'scen_line_col': 'b',            
         },
-        'perfect PQ males 15+':{
-        'filename': f'export_raw_scenario_1.0_1.0_1.0_males_{date}.xlsx',
-        'object_filename': f'sampled_results_scenario_1.0_1.0_1.0_males_{date}.obj',
-        'scen_name': 'perfect prim m15+',
-        'scen_line_col': 'g',       
+        # 'perfect PQ males 15+':{
+        # 'filename': f'export_raw_scenario_1.0_1.0_1.0_males_{date}.xlsx',
+        # 'object_filename': f'sampled_results_scenario_1.0_1.0_1.0_males_{date}.obj',
+        # 'scen_name': 'perfect prim m15+',
+        # 'scen_line_col': 'g',       
             
-        },
-        'perfect PQ all populations':{
+        # },
+        'Perfect radical cure':{
         'filename': f'export_raw_scenario_1.0_1.0_1.0_all_{date}.xlsx',
         'object_filename': f'sampled_results_scenario_1.0_1.0_1.0_all_{date}.obj',
         'scen_name': 'perfect prim all',
@@ -245,7 +249,10 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
 
     if flag_elimination_comparison:
         sc.savespreadsheet(filename='elimination_comparison.xlsx', data = [summary, elim_detailed_runs], folder = place_figs, sheetnames = ['summary', 'details'])
-                                    
+                 
+        if flag_make_plots:
+            load_and_plot_bars(place_figs)
+                   
 if __name__ == '__main__':
     run_post_processing(flag_all_prevalences=False, flag_resort_data=True, flag_make_plots=True)
 

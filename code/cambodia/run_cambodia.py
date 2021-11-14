@@ -45,10 +45,10 @@ def run_me(book_key):
     key_year = 2017  # for e.g. calibration cascades
     plot_language = 'English'
 
-    confidence_interval = 'samples'  # options: quartile for 75% range, ci for 95% range, samples for beautiful plots with every line individually that may not have appropriate legends
+    confidence_interval = 'ci'  # options: quartile for 75% range, ci for 95% range, samples for beautiful plots with every line individually that may not have appropriate legends
     plot_against_data_only = False  # if true, only output all the line plots where data exists (useful/faster for calibration!)
     np.random.seed(72)  # set a random seed for reproducible results (should apply to optimization?)
-    rand_seed = 22      #applying to the model runs and sampling with generators
+    rand_seed = 89      #applying to the model runs and sampling with generators
     run_parallel = True  # True may or may not work
 
     # get paths for model framework and data book, expected to be in a `<country>/Projects/` directory structure
@@ -62,7 +62,7 @@ def run_me(book_key):
         num_samples = 18
     else:
         plot_quality = 'final'  # preview = low dpi, include legends, final = high dpi, separate legends
-        num_samples = 100  # number of samples for the uncertainty plots - 1000 may be necessary for good results
+        num_samples = 300  # number of samples for the uncertainty plots - 1000 may be necessary for good results
 
     results_folder = project_folder + '..%sResults%s%s%s' % (sep, sep, book_str + user_version(),
                                                              sep)  # e.g. project files are in COUNTRY\Project\, results saved in COUNTRY\Results\date\
@@ -181,7 +181,7 @@ def run_me(book_key):
                         acceptance_criteria = []
                         acceptance_pars = ['h_cases']
                         acceptance_years = [(2018, 2018.99)]
-                        acceptance_tolerance = 0.5 # +-10% acceptable
+                        acceptance_tolerance = 0.5 # +-50% acceptable
                         res_ind = [res.name for res in results].index(res_name)
                         for a_par in acceptance_pars:
                             for a_year in acceptance_years:

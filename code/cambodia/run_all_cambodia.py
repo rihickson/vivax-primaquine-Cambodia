@@ -11,7 +11,7 @@ if __name__ == '__main__':
     
     #split into two for memory constraints
     book_key_all = ['Pursat_low', 'Pursat_high', 'Mondul_Kiri_low', 'Mondul_Kiri_high', 'Kampong_Chhnang_low', 'Kampong_Chhnang_high', 'Battambang_low', 'Battambang_high', 'Takeo_low', 'Takeo_high', 'Pailin_low', 'Pailin_high']
-    book_batches = 6 #adjust to run in batches due to memory constraints for long runs - 0 means don't (re-)run
+    # book_batches = 6 #adjust to run in batches due to memory constraints for long runs - 0 means don't (re-)run
     # book_key_all = ['Pailin_low', 'Pailin_high']
     
     global book_key
@@ -23,7 +23,8 @@ if __name__ == '__main__':
     #     print (f'Running batch {i+1}: {book_keys}')
     #     sc.parallelize(run_me, book_keys)
     #     gc.collect() #clear memory
-        
+    
+    #Each province can run using full parallelization, so run them in series
     for prov in book_key_all:
         run_me(prov)
         gc.collect() #clear memory
