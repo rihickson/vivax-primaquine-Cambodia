@@ -139,7 +139,7 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
                 num_runs = len(sr)
                 run_years = sr[0][0].t
                 plot_years = range(int(min(run_years)), int(max(run_years)), 1) if annual_aggregation else run_years
-                
+
                 """Save elimination data to spreadsheets"""
                 if flag_elimination_comparison:
                     #get a baseline incidence in 2019 for comparison purposes
@@ -190,7 +190,7 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
             
             """Now do things with prov_base_data (for a given province and baseline calibration)"""
             if flag_make_plots:
-                
+                                
                 for par_plot_label in par_plots.keys():
                     par_plot = par_plots[par_plot_label]
                     parameters_of_interest = list(par_plot.keys())

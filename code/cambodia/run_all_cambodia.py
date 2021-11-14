@@ -31,6 +31,8 @@ if __name__ == '__main__':
     
     # aggregate and plot the results (shown in paper)
     from result_aggregation import run_post_processing
+    from calibration_plots_cambodia import run_baseline_processing
     
     run_post_processing(flag_make_plots = True, flag_elimination_comparison = True)
+    run_baseline_processing(flag_make_plots = True)
 

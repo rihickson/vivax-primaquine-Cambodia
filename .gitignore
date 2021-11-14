@@ -17,5 +17,6 @@ scratch*.py
 *.idea*
 *.DS_Store*
 *Results*
+*generated*
 
 
