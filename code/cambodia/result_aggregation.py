@@ -22,7 +22,7 @@ import pandas as pd
 from bar_plots_cambodia import *
 
 
-def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, annual_aggregation=True, res_rename=''):
+def run_post_processing(flag_make_plots=False, flag_elimination_comparison=True, annual_aggregation=True, res_rename=''):
     # flag_make_plots = True  # if true, make new plots
     # flag_elimination_comparison = True # if true, generate output spreadsheet for how frequently elimination occurs in sampled ensemble
     # annual_aggregaton = True # if true aggregate values annually to provide smoother plots of just annual case totals
@@ -115,7 +115,9 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
         num_runs = None
         summary = [['Province', 'Baseline scen', 'Baseline incidence', 'Scenario', 'Parameter'] + [f'Elimination by {year}' for year in elim_target_years]] #store when elimination occurs.
 
-
+        reduction_summary = [['Province', 'Baseline incidence', 'Scenario', 'Parameter']]
+        for year in elim_target_years:
+            reduction_summary[0]+= [f'Best {year}', f'Low {year}', f'High {year}', f'Text {year}', f'Percentage best {year}', f'Percentage low {year}', f'Percentage high {year}', f'Percentage test {year}']
 
     """Loop through each set of results, only load each result once"""
     
@@ -128,12 +130,14 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
         tex_to_write += start_fig
         for baseline in base_incidence:  # for each baseline incidence calibration
             prov_base_data = dict()
+            prov_reduction_data = dict()
         
             for scen_ind, scen in enumerate(scen_names):  # for each primaquine scenario (no, males, full)
                 summary_str = f'{prov}_{baseline}_{scen_plot_names[scen_ind]}'
                 
                 print (f'Reading... {summary_str}')
                 prov_base_data[scen] = dict()
+                prov_reduction_data[scen] = dict()
                 # read ensemble data
                 sr = sc.loadobj(path_pre + prov + '_' + baseline + '_' + date + '_' + user + object_path_post + object_filenames[scen_ind])
                 num_runs = len(sr)
@@ -152,10 +156,24 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
                     for elim_par in elimination_pars:
                         elim_by = []
                         
+                        #for comparing reduction by 2025
+                        prov_reduction_data[scen][elim_par] = dict()
+                        par_tot_array = np.array([sri[0].get_variable(elim_par)[0].vals + sri[0].get_variable(elim_par)[1].vals for sri in sr])
+                        if annual_aggregation:
+                            time_steps_per_year = 1/time_step
+                            par_tot_array = np.array([[np.average(pa[int(yr*time_steps_per_year):int((yr+1)*time_steps_per_year)], axis=0) for yr in range(len(plot_years))] for pa in par_tot_array])
+                        else:
+                            raise Exception('Will not give suitable results without annual aggregation, check code...')
+                        for year in [base_case_year]+elim_target_years:
+                            yr_ind = plot_years.index(year)
+                            prov_reduction_data[scen][elim_par][str(year)] = [pa[yr_ind] for pa in par_tot_array]                        
+                        
+                        
                         for run, result in enumerate(sr):
                             tot_cases = result[0].get_variable(elim_par)[0].vals + result[0].get_variable(elim_par)[1].vals
                             elimination_starts = None
                             elimination_confirmed = np.inf
+                                                        
                             for ind, t in enumerate(result[0].t):
                                 if t >= base_case_year and t - 1. < base_case_year:
                                     base_cases += tot_cases[ind]
@@ -176,6 +194,23 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
                         
                         summary.append([prov, baseline, base_inci, scen, elim_par] + [float(len(np.where(np.array(elim_by)<target_year+1)[0]))/num_runs for target_year in elim_target_years])
                         elim_detailed_runs.append([prov, baseline, base_inci, scen, elim_par] + [eb if np.isfinite(eb) else "" for eb in elim_by])
+                        
+                        rs_row = [prov, baseline, scen, elim_par]
+                        for year in [base_case_year]+elim_target_years:
+                            best = np.median(prov_reduction_data[scen][elim_par][str(year)], axis=0)
+                            low = np.percentile(prov_reduction_data[scen][elim_par][str(year)], 10, axis=0)
+                            high = np.percentile(prov_reduction_data[scen][elim_par][str(year)], 90, axis=0)
+                            text = f'{best} ({low} - {high})'
+                            pc_differences = (np.array(prov_reduction_data[scen][elim_par][str(base_case_year)]) - np.array(prov_reduction_data[scen][elim_par][str(year)]))/np.array([max(1e-15, x) for x in prov_reduction_data[scen][elim_par][str(base_case_year)]])
+                            pc_best = np.median(pc_differences, axis=0)
+                            pc_low = np.percentile(pc_differences, 10, axis=0)
+                            pc_high = np.percentile(pc_differences, 90, axis=0)
+                            pc_text = f'{100*pc_best}% ({100*pc_low}% - {100*pc_high}%)'
+                            
+                            rs_row+= [best, low, high, text, pc_best, pc_low, pc_high, pc_text]
+                            
+                        reduction_summary.append(rs_row)
+                        # print (rs_row)
                 
                 if flag_make_plots:
                     pars = list(set([par for parlist in par_plots.values() for par in parlist])) #unique parameters in any of the desired plots
@@ -240,8 +275,8 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
                         # add info to string to write to tex file later
                         tex_to_write += mid_fig(pop=pop_key, scenario=baseline, figfile=filename)
 
-            # add end of figure text to string to write to tex file later
-            tex_to_write += end_fig(prov=prov)
+                # add end of figure text to string to write to tex file later
+                tex_to_write += end_fig(prov=prov)
                     
     if flag_make_plots:
         # directories etc
@@ -253,7 +288,7 @@ def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, 
         f.close()
 
     if flag_elimination_comparison:
-        sc.savespreadsheet(filename='elimination_comparison.xlsx', data = [summary, elim_detailed_runs], folder = place_figs, sheetnames = ['summary', 'details'])
+        sc.savespreadsheet(filename='elimination_comparison.xlsx', data = [summary, elim_detailed_runs, reduction_summary], folder = place_figs, sheetnames = ['summary', 'details', 'reductions'])
                  
         if flag_make_plots:
             load_and_plot_bars(place_figs)
