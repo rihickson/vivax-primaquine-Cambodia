@@ -22,7 +22,7 @@ import pandas as pd
 from bar_plots_cambodia import *
 
 
-def run_post_processing(flag_make_plots=False, flag_elimination_comparison=True, annual_aggregation=True, res_rename=''):
+def run_post_processing(flag_make_plots=True, flag_elimination_comparison=True, annual_aggregation=True, res_rename=''):
     # flag_make_plots = True  # if true, make new plots
     # flag_elimination_comparison = True # if true, generate output spreadsheet for how frequently elimination occurs in sampled ensemble
     # annual_aggregaton = True # if true aggregate values annually to provide smoother plots of just annual case totals
@@ -196,6 +196,10 @@ def run_post_processing(flag_make_plots=False, flag_elimination_comparison=True,
                         elim_detailed_runs.append([prov, baseline, base_inci, scen, elim_par] + [eb if np.isfinite(eb) else "" for eb in elim_by])
                         
                         rs_row = [prov, baseline, scen, elim_par]
+                        
+                        #determine the median, 10th and 90th percentile run based on cumulative cases 2019 to 2040
+                        
+                        
                         for year in [base_case_year]+elim_target_years:
                             best = np.median(prov_reduction_data[scen][elim_par][str(year)], axis=0)
                             low = np.percentile(prov_reduction_data[scen][elim_par][str(year)], 10, axis=0)
@@ -268,7 +272,8 @@ def run_post_processing(flag_make_plots=False, flag_elimination_comparison=True,
                         pl.ylim((0, ymax))
     
                         # save figures to file, and close so not too many open in python
-                        filename = prov + '_' + baseline + '_' + par_plot_label + '_' + pop_key + '.png'
+                        filename = 'regenerated_' + prov + '_' + baseline + '_' + par_plot_label + '_' + pop_key + '.pdf'
+                        print ('PRINTING'+filename)
                         pl.savefig(place_figs + filename)
                         pl.close('all')
     

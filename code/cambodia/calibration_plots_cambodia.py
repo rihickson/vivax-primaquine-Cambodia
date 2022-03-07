@@ -29,8 +29,8 @@ from bar_plots_cambodia import *
 
 
 def run_baseline_processing(flag_make_plots=True, annual_aggregation=True, res_rename=''):
-    # flag_make_plots = True  # if true, make new plots
-    # flag_elimination_comparison = True # if true, generate output spreadsheet for how frequently elimination occurs in sampled ensemble
+    flag_make_plots = True  # if true, make new plots
+    flag_elimination_comparison = True # if true, generate output spreadsheet for how frequently elimination occurs in sampled ensemble
     # annual_aggregaton = True # if true aggregate values annually to provide smoother plots of just annual case totals
 
     prov_list = ['Pursat', 'Mondul_Kiri', 'Kampong_Chhnang', 'Battambang', 'Takeo', 'Pailin'] #['Battambang'] #
@@ -242,7 +242,7 @@ def run_baseline_processing(flag_make_plots=True, annual_aggregation=True, res_r
                     pl.ylim((0, ymax))
 
                     # save figures to file, and close so not too many open in python
-                    filename = 'calibration_' + prov + '_' + par_plot_label + '_' + pop_key + '.png'
+                    filename = 'calibration_' + prov + '_' + par_plot_label + '_' + pop_key + '.pdf'
                     pl.savefig(place_figs + filename)
                     pl.close('all')
 

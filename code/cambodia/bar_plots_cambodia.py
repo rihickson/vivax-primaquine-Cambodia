@@ -87,6 +87,7 @@ def barplots(df, place_figs, filename):
 
 def load_and_plot_bars(place_figs):
     filename = place_figs + 'elimination_comparison.xlsx'
+    place_figs += 'pdfs\\'
     data = pd.read_excel(filename)
     df = pd.DataFrame(data)
     df.replace('Mondul_Kiri', 'Mondulkiri', inplace=True)
@@ -110,8 +111,8 @@ def load_and_plot_bars(place_figs):
     
     
     
-    barplots(hv, place_figs, 'high_baseline')
-    barplots(lv, place_figs, 'low_baseline')
+    barplots(hv, place_figs, 'high_baseline.pdf')
+    barplots(lv, place_figs, 'low_baseline.pdf')
 
 if __name__ == '__main__':
     place_figs = 'D:\\GitHub\\vivax-primaquine-Cambodia\\code\\cambodia\\generated_figures_300_runs_seed_89\\'
